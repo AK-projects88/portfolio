@@ -671,7 +671,8 @@ body, button, .id-card {
   justify-content: center;
   width: 100%;
   max-width: 1200px;
-  padding: 4rem 2rem;
+  /* THE SHIELD IS BACK: 180px top, 2rem right, 4rem bottom, 2rem left */
+  padding: 180px 2rem 4rem 2rem; 
   gap: 3rem;
 }
 .id-card-wrapper {
