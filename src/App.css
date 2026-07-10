@@ -6,12 +6,27 @@
   padding: 0;
 }
 
+html {
+  font-size: clamp(12px, 0.8vw + 0.4rem, 16px);
+  overflow-x: hidden;
+}
+
 body {
   background-color: #070707; /* Deep portfolio black */
   color: #ffffff;
   font-family: 'Space Grotesk', sans-serif;
   overflow-x: hidden;
   min-height: 100vh;
+}
+
+.App {
+  width: 100%;
+  max-width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
 }
 
 /* --- 1. THE PRELOADER --- */
@@ -197,10 +212,8 @@ body {
   pointer-events: none;
 }
 
-/* Push the hero section down so it doesn't collide with the new Nav Bar */
-.hero-section {
-  padding-top: 180px; 
-}
+
+
 
 /* The Actual Card */
 .id-card {
@@ -652,34 +665,23 @@ body, button, .id-card {
 /* --- THE MASTER HERO LAYOUT (CSS CASCADE OVERRIDE) --- */
 /* --- THE MASTER HERO LAYOUT (PURE MATH GRID) --- */
 .hero-section {
-  width: 100%;
-  max-width: 1300px; /* CRITICAL: This invisible box stops the content from hitting the edges */
-  margin: 0 auto; /* Centers the invisible box on the screen */
-  padding: 180px 40px 100px 40px;
-  
-  /* THE X100 SPLIT: Divides the 1300px box into two perfectly equal rooms */
-  display: grid;
-  grid-template-columns: 1fr 1fr; 
+  display: flex;
+  flex-direction: column; 
   align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1200px;
+  padding: 4rem 2rem;
+  gap: 3rem;
 }
 .id-card-wrapper {
-  position: relative;
-  width: 300px;
-  height: 450px;
-  display: flex;
-  justify-content: center;
-  z-index: 10;
-  
-  /* THE X1000 COLLISION FIX */
-  /* We stop using 'margin: 0 auto'. 
-     We shove the card to the far right of its grid space, guaranteeing it clears the 700px Nav Bar */
-  margin-left: auto !important; 
-  margin-right: 20px !important; /* Creates a perfect bumper gap so it doesn't hit your View buttons */
+  width: 90%;
+  max-width: 450px; 
+  height: auto;
+  aspect-ratio: 3 / 4;
+  position: relative; 
 }
-.app-wrapper.mobile .id-card-wrapper {
-  order: 1; 
-  margin: 0 auto !important; /* Forcibly resets the card to dead-center on small screens */
-}
+
 /* --- 9. THE X10THINK MODAL PORTALS --- */
 .modal-backdrop {
   position: fixed;
@@ -784,4 +786,82 @@ body, button, .id-card {
 .app-wrapper.mobile .contact-title, 
 .app-wrapper.mobile .about-header h2 { 
   font-size: 3.5rem; 
+}
+@media (max-width: 1024px) {
+  .hero-section {
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 2rem 1rem;
+    gap: 1.5rem;
+  }
+  .id-card-wrapper {
+    max-width: 350px;
+  }
+}
+/* --- X10THINK MOBILE OVERRIDE (PHONE RESPONSIVENESS) --- */
+@media (max-width: 768px) {
+  /* 1. Hide the custom cursor on phones (touchscreens don't need it) */
+  .custom-cursor { 
+    display: none !important; 
+  }
+  
+  /* 2. Fix the overlapping View Toggle */
+  .view-toggle {
+    top: 15px;
+    transform: scale(0.8);
+    width: 100%;
+    justify-content: center;
+    z-index: 100;
+  }
+
+  /* 3. Re-structure the Nav Bar */
+  .nav-bar {
+    padding: 15px;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 60px; /* Push it below the view toggle */
+  }
+
+  /* 4. Scale down the Hero Typography */
+  .hero-title {
+    font-size: 3.5rem;
+    line-height: 1.1;
+  }
+  
+  .hero-subtext {
+    font-size: 1rem;
+    padding: 0 20px;
+  }
+
+  /* 5. Fix the Lanyard and ID Card Overlap */
+  .hero-section {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+    padding-top: 20px;
+  }
+  
+  .id-card-wrapper {
+    margin-top: 40px;
+    transform: scale(0.85) !important; /* Shrink the ID card */
+  }
+
+  .lanyard {
+    height: 120px; /* Shorter lanyard string */
+  }
+
+  /* 6. Fix the Bento Grid for Work/Projects */
+  .bento-grid {
+    grid-template-columns: 1fr; /* Stack boxes in 1 column instead of 3 */
+    padding: 20px;
+  }
+
+  /* 7. Let users scroll smoothly over the math canvas */
+  .kinetic-canvas {
+    pointer-events: none;
+  }
 }
