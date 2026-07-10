@@ -1,0 +1,787 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #070707; /* Deep portfolio black */
+  color: #ffffff;
+  font-family: 'Space Grotesk', sans-serif;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* --- 1. THE PRELOADER --- */
+.preloader {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background-color: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.preloader-text {
+  font-size: 1.5rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #888;
+}
+
+/* --- 2. BRUTALIST TYPOGRAPHY (HERO SECTION) --- */
+/* --- 2. BRUTALIST TYPOGRAPHY (HERO SECTION) --- */
+
+
+.hero-title {
+  font-size: 6rem;
+  font-weight: 700;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+/* The Hollow Text Effect from the video */
+.outline-text {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.4);
+  transition: all 0.4s ease;
+}
+
+.outline-text:hover {
+  color: #ffffff;
+  -webkit-text-stroke: 1px transparent;
+}
+
+.hero-subtext {
+  color: #888;
+  max-width: 400px;
+  margin-top: 30px;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+/* --- 3. THE ID CARD PHYSICS ENCLOSURE --- */
+/* --- 3. THE ID CARD PHYSICS ENCLOSURE --- */
+/* --- 3. THE ID CARD PHYSICS ENCLOSURE --- */
+
+/* The String/Lanyard */
+/* 5. THE GLASSMORPHISM NAV BAR */
+/* 5. THE MAC-STYLE FLOATING NAV BAR */
+/* 5. THE X100 FROSTED WHITE GLASS NAV BAR */
+.nav-bar {
+  position: fixed;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 700px;
+  max-width: 90vw;
+  height: 70px;
+  
+  /* The Secret to True Glass: High opacity white + Light Saturation */
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(30px) saturate(200%);
+  -webkit-backdrop-filter: blur(30px) saturate(200%);
+  
+  /* 3D Bevel Edges (Light hits the top, shadow on the bottom) */
+  border-top: 1px solid rgba(255, 255, 255, 1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-left: 1px solid rgba(255, 255, 255, 0.5);
+  border-right: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 100px;
+  
+  /* Massive physical drop shadow + inner light reflection for Volume */
+  box-shadow: 
+    0 30px 60px rgba(0, 0, 0, 0.4), 
+    inset 0 4px 10px rgba(255, 255, 255, 0.8);
+    
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 40px;
+  z-index: 100;
+  
+  /* Makes the whole bar breathe and move when hovered */
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+/* --- THE X1000 PHYSICAL LEATHER KNOT --- */
+/* --- THE X1000 PHYSICAL RED FABRIC KNOT --- */
+/* --- THE X1000 TRUE PHYSICAL LOOP --- */
+
+
+/* The Living Hover State for the entire Bar */
+.nav-bar:hover {
+  transform: translateX(-50%) translateY(-4px);
+  box-shadow: 
+    0 40px 80px rgba(0, 0, 0, 0.6), 
+    inset 0 4px 10px rgba(255, 255, 255, 1);
+}
+
+/* Typography adjusted for White Glass */
+.nav-logo {
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  color: #000000; /* Pitch black for high contrast */
+  font-size: 1.1rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 35px; /* Restored the original clean gap */
+}
+
+/* The Living Hover State for the Links */
+.nav-link {
+  color: #555555; 
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 10px 20px;
+  border-radius: 50px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  font-weight: 700;
+  cursor: none; /* Keeps your custom cursor working */
+}
+
+.nav-link:hover {
+  color: #000000;
+  /* Creates a physically indented pill shape when hovered */
+  background: rgba(0, 0, 0, 0.04); 
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 6. THE UPGRADED TETHER LANYARD */
+/* 6. THE HEAVY-DUTY FABRIC LANYARD */
+/* 6. THE PREMIUM STITCHED LEATHER LANYARD */
+/* --- 6. THE SLICED TACTICAL LANYARD --- */
+/* --- 6. THE RESTORED CEILING LANYARD --- */
+/* --- 6. THE CLEAN INFINITE LANYARD --- */
+.lanyard {
+  position: absolute;
+  /* Reaches all the way up to the invisible ceiling */
+  top: -1000px; 
+  left: 50%;
+  transform: translateX(-50%);
+  
+  width: 26px; 
+  height: 1050px; 
+  
+  /* Pure red fabric lighting */
+  background: linear-gradient(to right, #7a0000 0%, #e50914 20%, #e50914 80%, #7a0000 100%);
+  
+  box-shadow: 
+    inset 0 0 12px rgba(0, 0, 0, 0.6),
+    0 10px 30px rgba(0, 0, 0, 0.2); 
+    
+  z-index: -1; 
+}
+
+/* THE X100THINK DETAIL: Hand-Stitched Nylon Thread */
+.lanyard::before {
+  content: '';
+  position: absolute;
+  /* We inset the thread 4px away from the leather edges */
+  top: 0; left: 5px; right: 5px; bottom: 0;
+  
+  /* The Thread itself (Tan / Gold dashed lines) */
+  border-left: 2px dashed rgba(200, 160, 120, 0.45); 
+  border-right: 2px dashed rgba(200, 160, 120, 0.45);
+  
+  /* We use tiny inset shadows to make the thread look 'pressed' into the leather */
+  box-shadow: 
+    inset 1px 0 2px rgba(0,0,0,0.5), 
+    inset -1px 0 2px rgba(0,0,0,0.5);
+    
+  pointer-events: none;
+}
+
+/* Push the hero section down so it doesn't collide with the new Nav Bar */
+.hero-section {
+  padding-top: 180px; 
+}
+
+/* The Actual Card */
+.id-card {
+  position: relative;
+  width: 260px;
+  height: 380px;
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: grab; /* Shows a grabbing hand when hovering */
+  z-index: 2;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.1);
+  margin-top: 50px; /* Pushes it down below the lanyard */
+}
+
+/* Changes cursor when actively dragging */
+.id-card:active {
+  cursor: grabbing;
+}
+
+/* The cutout slot for the lanyard */
+.id-card-hole {
+  width: 60px;
+  height: 8px;
+  background: #000;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+}
+
+/* The Photo */
+/* The Actual Card Wrapper */
+.id-card {
+  position: relative;
+  width: 280px;       /* Slightly wider to fit your graphic's aspect ratio */
+  height: 440px;      /* Taller to match the image */
+  border-radius: 16px; /* Rounds the corners of your image perfectly */
+  cursor: grab; 
+  z-index: 2;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.1);
+  margin-top: 50px; 
+  overflow: hidden;   /* CRITICAL: This chops off the sharp edges of your image so it stays rounded */
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.id-card:active {
+  cursor: grabbing;
+}
+
+/* The Image Itself */
+.id-card-graphic {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;  /* Ensures the image fills the box without squishing */
+  pointer-events: none; /* CRITICAL: Stops the browser from trying to "save" the image when you drag it */
+}
+
+/* --- 4. THE BENTO BOX GRID & TABS --- */
+.portfolio-section {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 40px;
+}
+
+.tab-container {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 40px;
+}
+
+.tab-button {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #888;
+  padding: 12px 30px;
+  border-radius: 100px;
+  font-family: inherit;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tab-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.tab-button.active {
+  background: #ffffff;
+  color: #000000;
+  font-weight: 600;
+}
+
+/* The Grid Layout */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.bento-box {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 24px;
+  padding: 40px;
+  min-height: 250px;
+  transition: transform 0.3s ease;
+}
+
+.bento-box:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.06);
+}
+/* --- THE LIVING BACKGROUND --- */
+.glow-orb {
+  position: fixed;
+  top: 50%; left: 50%;
+  width: 800px; height: 800px;
+  background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 60%);
+  border-radius: 50%;
+  z-index: -2;
+  pointer-events: none;
+  animation: orb-breathe 10s ease-in-out infinite alternate;
+}
+
+@keyframes orb-breathe {
+  0% { transform: translate(-50%, -50%) scale(1); opacity: 0.4; }
+  100% { transform: translate(-50%, -50%) scale(1.3); opacity: 0.8; }
+}
+
+
+/* --- THE AGENCY UPGRADES --- */
+
+/* 1. CINEMATIC FILM GRAIN */
+.noise-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.04;
+  background: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+}
+/* --- THE KINETIC MATH CANVAS --- */
+.kinetic-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 5; /* Sits right above the black void, below everything else */
+  pointer-events: none; /* Allows you to click 'through' the math grid */
+}
+
+/* 2. HIDE THE DEFAULT WINDOWS CURSOR */
+body, button, .id-card {
+  cursor: none !important; 
+}
+
+/* 3. THE FLUID INVERTED CURSOR */
+/* 3. THE CONTEXTUAL CURSOR */
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none; 
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  
+  /* Typography for the hidden text */
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  overflow: hidden;
+}
+
+/* 4. UPGRADED BENTO BOX GLOW */
+.bento-box {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bento-box:hover {
+  transform: translateY(-8px) scale(1.02);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 20px 40px -10px rgba(255,255,255,0.1);
+}
+/* --- THE 3D MAGNETIC UPGRADES --- */
+/* 1. We create a camera perspective so the 3D tilt actually looks deep */
+.bento-grid {
+  perspective: 1000px; 
+}
+
+/* 2. Upgrades the box to support 3D rendering */
+.magnetic-box {
+  position: relative;
+  /* Adds a subtle white inner-rim light to simulate thick glass catching the light */
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05), 0 10px 30px rgba(0,0,0,0.5);
+}
+
+/* 3. THE MAGIC TRICK: Pushes the text 40 pixels OUT of the monitor towards the user */
+.magnetic-content {
+  transform: translateZ(40px);
+  /* Ensures the text doesn't get flattened */
+  transform-style: preserve-3d; 
+  pointer-events: none; /* Stops the text from interfering with the hover math */
+}
+/* --- 7. THE GLASSMORPHISM VIEWPORT TOGGLE --- */
+.view-toggle {
+  position: fixed;
+  top: 30px;
+  right: 40px; /* Placed perfectly on the right side, beside the drop zone */
+  height: 70px; /* Matches Nav Bar height */
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(24px) saturate(200%);
+  -webkit-backdrop-filter: blur(24px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5), inset 0 2px 10px rgba(255,255,255,0.2);
+  z-index: 200; 
+  gap: 5px;
+}
+
+.view-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.4);
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  padding: 12px 20px;
+  border-radius: 50px;
+  cursor: none;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.view-btn:hover {
+  color: #fff;
+}
+
+.view-btn.active {
+  background: rgba(255, 255, 255, 0.9);
+  color: #000;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+/* --- 10. THE INFINITE MARQUEE --- */
+.marquee-container {
+  width: 100vw;
+  overflow: hidden;
+  background: #ffffff;
+  padding: 20px 0;
+  transform: rotate(-2deg) scale(1.05); /* Tilts the entire bar slightly to break the grid */
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+  z-index: 20;
+  position: relative;
+  margin: 100px 0;
+}
+
+.marquee-track h1 {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #000;
+  white-space: nowrap;
+  letter-spacing: 0.1em;
+  animation: scrollMarquee 15s linear infinite;
+}
+
+@keyframes scrollMarquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* --- 11. THE ABOUT ZONE --- */
+.about-section {
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 150px 40px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+}
+
+.about-header h2 {
+  font-size: 5rem;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+}
+
+.about-text {
+  padding-top: 20px;
+}
+
+.about-text p {
+  color: #aaa;
+  font-size: 1.4rem;
+  line-height: 1.8;
+  margin-bottom: 30px;
+}
+
+.about-text p:first-child {
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+/* --- 12. THE CONTACT ZONE --- */
+.contact-section {
+  width: 100%;
+  padding: 200px 40px;
+  text-align: center;
+  background: radial-gradient(circle at center, rgba(20,20,20,1) 0%, rgba(5,5,5,1) 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.contact-title {
+  font-size: 6rem;
+  line-height: 0.9;
+  margin-bottom: 60px;
+}
+
+/* --- 13. THE IGNITION SEQUENCE REACTOR --- */
+.ignition-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 400px;
+  height: 80px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 100px;
+  overflow: hidden;
+  cursor: none;
+  background: rgba(0,0,0,0.5);
+  margin: 0 auto;
+}
+
+.ignition-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background: #ffffff;
+  /* We remove CSS transitions because React requestAnimationFrame is handling the math frame-by-frame */
+  transition: none; 
+  z-index: 1;
+}
+
+.ignition-text {
+  position: relative;
+  z-index: 2;
+  color: #ffffff;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  /* THE MAGIC TRICK: Inverts to black instantly when the white liquid touches it */
+  mix-blend-mode: difference; 
+  pointer-events: none;
+}
+
+.contact-email:hover {
+  background: #fff;
+  color: #000;
+  box-shadow: 0 0 40px rgba(255,255,255,0.4);
+  transform: scale(1.05);
+}
+/* --- 8. THE RESPONSIVE MATRIX OVERRIDES --- */
+.app-wrapper.mobile .hero-section {
+  display: flex; /* Overrides the grid for mobile phones */
+  flex-direction: column; 
+  padding: 130px 20px 50px 20px;
+  gap: 40px;
+}
+
+.app-wrapper.mobile .id-card-wrapper {
+  order: 1; 
+  margin: 0 auto !important; /* Locks it to the dead center of the phone screen */
+}
+
+/* TABLET MODE (Shrinks grid and text) */
+.app-wrapper.tablet .bento-grid {
+  grid-template-columns: repeat(2, 1fr);
+}
+.app-wrapper.tablet .hero-title {
+  font-size: 4rem;
+}
+
+/* MOBILE MODE (Single column, ID card above text) */
+.app-wrapper.mobile .nav-bar {
+  width: 90vw;
+  padding: 0 25px;
+}
+
+.app-wrapper.mobile .nav-links {
+  display: none; /* Hides links to fit mobile screen cleanly */
+}
+
+.app-wrapper.mobile .hero-section {
+  flex-direction: column; /* Stacks items vertically instead of left/right */
+  padding-top: 130px;
+  gap: 40px;
+}
+
+/* Re-orders the flexbox so the ID Card drops first, and text sits below it */
+.app-wrapper.mobile .hero-section > div:first-child {
+  order: 2; 
+  text-align: center;
+  margin: 0 auto;
+}
+
+.app-wrapper.mobile .id-card-wrapper {
+  order: 1; 
+  margin-top: 0;
+  margin-right: 0; /* CRITICAL: Resets the push so it stays perfectly centered on phones */
+}
+
+.app-wrapper.mobile .hero-title {
+  font-size: 3.2rem;
+}
+
+.app-wrapper.mobile .bento-grid {
+  grid-template-columns: 1fr; /* 1 single vertical column */
+}
+
+/* Shrinks the actual ID card dimensions to fit a phone screen */
+.app-wrapper.mobile .id-card {
+  width: 220px;
+  height: 350px;
+}
+/* --- THE MASTER HERO LAYOUT (CSS CASCADE OVERRIDE) --- */
+/* --- THE MASTER HERO LAYOUT (PURE MATH GRID) --- */
+.hero-section {
+  width: 100%;
+  max-width: 1300px; /* CRITICAL: This invisible box stops the content from hitting the edges */
+  margin: 0 auto; /* Centers the invisible box on the screen */
+  padding: 180px 40px 100px 40px;
+  
+  /* THE X100 SPLIT: Divides the 1300px box into two perfectly equal rooms */
+  display: grid;
+  grid-template-columns: 1fr 1fr; 
+  align-items: center;
+}
+.id-card-wrapper {
+  position: relative;
+  width: 300px;
+  height: 450px;
+  display: flex;
+  justify-content: center;
+  z-index: 10;
+  
+  /* THE X1000 COLLISION FIX */
+  /* We stop using 'margin: 0 auto'. 
+     We shove the card to the far right of its grid space, guaranteeing it clears the 700px Nav Bar */
+  margin-left: auto !important; 
+  margin-right: 20px !important; /* Creates a perfect bumper gap so it doesn't hit your View buttons */
+}
+.app-wrapper.mobile .id-card-wrapper {
+  order: 1; 
+  margin: 0 auto !important; /* Forcibly resets the card to dead-center on small screens */
+}
+/* --- 9. THE X10THINK MODAL PORTALS --- */
+.modal-backdrop {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(15px); /* Heavy blur to hide the main site */
+  -webkit-backdrop-filter: blur(15px);
+  z-index: 1000; /* Stays above everything, even the Nav Bar */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-content {
+  width: 100%;
+  max-width: 800px;
+  background: rgba(20, 20, 20, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 24px;
+  padding: 60px;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8);
+  position: relative;
+  overflow: hidden;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 30px; right: 30px;
+  background: transparent;
+  border: none;
+  color: #888;
+  font-family: inherit;
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  font-weight: 700;
+  cursor: none;
+  transition: color 0.3s;
+}
+
+.modal-close-btn:hover { color: #fff; }
+
+.modal-title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.modal-subtitle {
+  color: #888;
+  font-size: 1.2rem;
+  margin-bottom: 40px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.modal-details h3 {
+  color: #fff;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 15px;
+}
+
+.modal-details p {
+  color: #aaa;
+  line-height: 1.8;
+  font-size: 1.1rem;
+  margin-bottom: 40px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 20px;
+}
+
+.case-study-btn {
+  background: #fff;
+  color: #000;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 100px;
+  font-family: inherit;
+  font-weight: 700;
+  cursor: none;
+  transition: transform 0.2s;
+}
+
+.case-study-btn.outline {
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.case-study-btn:hover { transform: scale(1.05); }
+.app-wrapper.mobile .about-grid { 
+  grid-template-columns: 1fr; 
+  gap: 40px; 
+}
+
+.app-wrapper.mobile .contact-title, 
+.app-wrapper.mobile .about-header h2 { 
+  font-size: 3.5rem; 
+}
