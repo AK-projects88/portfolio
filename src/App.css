@@ -23,11 +23,10 @@ body {
   width: 100%;
   max-width: 100vw;
   min-height: 100vh;
-  overflow-x: hidden;
   display: flex;
   flex-direction: column;
-  align-items: center; /* The silver bullet: centers everything horizontally */
-  background-color: #070707; /* Ensures background stays dark */
+  align-items: center;
+  overflow: hidden;
 }
 
 /* --- 1. THE PRELOADER --- */
@@ -666,27 +665,24 @@ body, button, .id-card {
 /* --- X1000 OVERRIDE: THE MASTER DESKTOP GRID --- */
 .hero-section {
   width: 100%;
-  max-width: 100vw;
-  margin: 0 auto !important; 
-  padding-top: 120px; 
-  display: flex !important;
-  flex-direction: column !important; /* Forces the vertical stack (Text over Card) */
-  align-items: center !important; /* Locks text and card to the absolute center */
-  justify-content: flex-start;
-  text-align: center;
+  max-width: 1300px;
+  margin: 0 auto !important; /* CRITICAL: This stops it from hugging the left wall */
+  padding: 180px 40px 100px 40px; /* Restores your anti-gravity shield */
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Restores the 2-column side-by-side layout */
+  align-items: center;
+  justify-items: center;
   gap: 2rem;
 }
 
-/* 3. The ID Card: Stops the stretching and overlapping */
 .id-card-wrapper {
   position: relative;
-  width: 90%;
-  max-width: 320px; /* Locks it to the perfect visual size */
-  margin: 0 auto !important;
+  width: 100%;
+  max-width: 380px; 
+  aspect-ratio: 3 / 4; /* Keeps the card from warping */
   display: flex;
   justify-content: center;
-  z-index: 50;
-  flex-shrink: 0; /* Prevents the text from squashing the card */
+  z-index: 10;
 }
 
 /* --- 9. THE X10THINK MODAL PORTALS --- */
@@ -873,11 +869,12 @@ body, button, .id-card {
     pointer-events: none;
   }
 }
-/* 4. The Broken Nav Bar Fix: Stops it from stretching across the whole screen */
-.view-toggle, .nav-bar {
-  width: auto !important;
-  max-width: 600px;
-  margin: 0 auto !important;
-  display: flex;
-  justify-content: center;
+/* --- X1000 MOBILE/TABLET SAFETY OVERRIDE --- */
+@media (max-width: 1024px) {
+  .hero-section {
+    display: flex !important; /* Kills the side-by-side grid on small screens */
+    flex-direction: column; /* Stacks them vertically */
+    padding-top: 150px;
+    gap: 4rem;
+  }
 }
