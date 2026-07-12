@@ -785,30 +785,3 @@ body, button, .id-card {
 .app-wrapper.mobile .about-header h2 { 
   font-size: 3.5rem; 
 }
-/* --- X100 AUDIO TOGGLE --- */
-.cyber-audio-btn {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #fff;
-  padding: 12px 24px;
-  border-radius: 50px;
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 600;
-  font-size: 0.8rem;
-  letter-spacing: 2px;
-  cursor: pointer;
-  z-index: 1000;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-}
-
-.cyber-audio-btn:hover {
-  background: rgba(255, 0, 0, 0.2); /* Glows red when hovered */
-  border-color: rgba(255, 0, 0, 0.5);
-  box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
-  transform: scale(1.05);
-}
