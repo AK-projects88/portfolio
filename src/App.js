@@ -156,6 +156,19 @@ const IgnitionButton = ({ setCursorType }) => {
 
 // --- MAIN APP COMPONENT ---
 const App = () => {
+  // --- THE X100 AUDIO ENGINE (PASTE THIS HERE) ---
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef(null);
+
+  const toggleMusic = () => {
+    if (isPlaying) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.play();
+    }
+    setIsPlaying(!isPlaying);
+  };
+  // --- END OF AUDIO ENGINE ---
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('Projects');
   const [cursorType, setCursorType] = useState('default');
@@ -458,6 +471,19 @@ const App = () => {
                 <div className="modal-actions">
                   <button className="case-study-btn" onMouseEnter={() => setCursorType('click')} onMouseLeave={() => setCursorType('default')}>View Live Site</button>
                   <button className="case-study-btn outline" onMouseEnter={() => setCursorType('click')} onMouseLeave={() => setCursorType('default')}>GitHub Repo</button>
+                  {/* ... this is all your other website code like the id-card ... */}
+      
+      {/* --- PASTE THE BUTTON EXACTLY HERE --- */}
+      <audio ref={audioRef} loop src="/tokyo-drift.mp3" />
+      <button className="cyber-audio-btn" onClick={toggleMusic}>
+        {isPlaying ? '🔊 DRIFTING' : '🔇 INIT AUDIO'}
+      </button>
+
+    </div> /* <-- THIS IS YOUR FINAL CLOSING DIV */
+  );
+}
+
+export default App;
                 </div>
               </motion.div>
             </motion.div>
