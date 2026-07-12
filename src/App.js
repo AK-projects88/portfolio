@@ -479,11 +479,7 @@ const App = () => {
         {isPlaying ? '🔊 DRIFTING' : '🔇 INIT AUDIO'}
       </button>
 
-    </div> /* <-- THIS IS YOUR FINAL CLOSING DIV */
-  );
-}
-
-export default App;
+    
                 </div>
               </motion.div>
             </motion.div>
