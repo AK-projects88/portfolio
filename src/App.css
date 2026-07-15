@@ -214,22 +214,49 @@ margin: 0 auto;
   position: relative;
   width: 260px;
   height: 380px;
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(15px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 20px;
+  border-radius: 12px; 
   padding: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  cursor: grab; /* Shows a grabbing hand when hovering */
+  cursor: grab;
   z-index: 2;
-  box-shadow: 0 30px 60px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.1);
-  margin-top: 50px; /* Pushes it down below the lanyard */
+  margin-top: 50px;
+  
+  /* --- THE REAL PHOTOGRAPHIC TITANIUM ASSET --- */
+  /* --- THE REAL PHOTOGRAPHIC TITANIUM ASSET --- */
+  background-color: #111;
+  background-image: 
+    linear-gradient(145deg, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.8) 80%),
+    url("./dark-metal.jpg");
+  background-blend-mode: overlay;
+  background-size: cover;
+  background-position: center;
+  
+  /* CNC Machined Outer Edge */
+  border: 1px solid #000;
+  border-top: 1px solid #4a4d52;
+  border-left: 1px solid #3a3d42;
+  
+  /* True Physical Mass Shadow & Edge Chamfer */
+  box-shadow: 
+    inset 0 1px 1px rgba(255, 255, 255, 0.2), 
+    inset 0 -2px 10px rgba(0, 0, 0, 0.9),    
+    25px 35px 45px rgba(0, 0, 0, 0.95);        
+
+  backdrop-filter: none !important; 
+  -webkit-backdrop-filter: none !important;
 }
 
-/* Changes cursor when actively dragging */
+.id-card:active {
+  cursor: grabbing;
+}
+
+.id-card:active {
+  cursor: grabbing;
+}
+
+/* Changes cursor when actively dragging the metal card */
 .id-card:active {
   cursor: grabbing;
 }
@@ -833,4 +860,128 @@ body, button, .id-card {
 .app-wrapper.mobile .contact-title, 
 .app-wrapper.mobile .about-header h2 { 
   font-size: 3.5rem; 
+}
+/* --- COMMAND CENTER LAYOUT --- */
+/* --- BULLETPROOF COMMAND CENTER LAYOUT --- */
+.contact-command-center {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1400px; /* Expanded from 1200px to give the massive text room to breathe */
+  margin: 0 auto;
+  padding: 100px 40px;
+  gap: 20px;
+}
+
+.side-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1; /* Forces side panels to take equal space */
+  min-width: 280px; /* Prevents the panels from crushing inward */
+}
+
+.contact-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 2; /* Gives the center massive text priority space */
+  z-index: 10;
+}
+
+.data-node {
+  background: rgba(20, 20, 22, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 25px;
+  backdrop-filter: blur(10px);
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+  color: #fff;
+  font-family: monospace;
+  text-align: left;
+  transition: all 0.3s ease;
+}
+
+.link-node {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+/* --- 3D ICON POP PHYSICS --- */
+.link-content {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* --- UPGRADED TYPOGRAPHY & ICON SIZE --- */
+.icon-3d {
+  width: 42px; /* Increased from 32px for better presence */
+  height: 42px;
+  object-fit: contain;
+  transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); 
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+  transform: scale(1) translateY(0) rotate(0);
+}
+
+.link-content span {
+  font-family: 'Inter', 'Montserrat', sans-serif; /* Premium modern font stack */
+  font-size: 1.15rem; /* Larger, readable size */
+  font-weight: 800; /* Extra bold */
+  letter-spacing: 2px; /* Cinematic spacing */
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+/* When the whole button is hovered, the 3D icon lifts, scales, and twists */
+.link-node:hover .icon-3d {
+  transform: scale(1.6) translateY(-8px) rotate(-8deg);
+  filter: drop-shadow(8px 15px 12px rgba(0,0,0,0.8));
+}
+
+.link-node:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+.sub-text {
+  color: #666;
+  font-size: 0.8rem;
+  margin-top: 5px;
+}
+
+.glitch-text {
+  margin: 5px 0;
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+}
+
+/* --- LIVE STATUS BLINKER --- */
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+
+.blinking-dot {
+  width: 10px;
+  height: 10px;
+  background-color: #00ff66;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #00ff66;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.3; }
+  100% { opacity: 1; }
 }

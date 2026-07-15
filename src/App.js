@@ -579,10 +579,62 @@ const App = () => {
           </div>
         </motion.section>
 
-        <motion.section id="contact" className="contact-section" variants={loadStaggerItem}>
-          <h2 className="contact-title">INITIATE <br/> <span className="outline-text">SEQUENCE</span></h2>
-          <IgnitionButton setCursorType={setCursorType} />
-        </motion.section>
+        <motion.section id="contact" className="contact-command-center" variants={loadStaggerItem}>
+  
+  {/* LEFT FLANK: Telemetry & Status */}
+  <div className="side-panel left-panel">
+    <div className="data-node">
+      <div className="status-indicator">
+        <div className="blinking-dot"></div>
+        <span>SYSTEM ONLINE</span>
+      </div>
+      <p className="sub-text">ACCEPTING NEW PROJECTS</p>
+    </div>
+    
+    <div className="data-node">
+      <span>SERVER NODE</span>
+      <h3 className="glitch-text">INDIA // IST</h3>
+      <p className="sub-text">LOCAL TIME: 12:01 PM</p>
+    </div>
+  </div>
+
+  {/* CENTER: Your Existing Core */}
+  <div className="contact-center">
+    <h2 className="contact-title">
+      INITIATE <br/> 
+      <span className="outline-text">SEQUENCE</span>
+    </h2>
+    <IgnitionButton setCursorType={setCursorType} />
+  </div>
+
+ {/* RIGHT FLANK: Network Links with 3D Nodes */}
+  <div className="side-panel right-panel">
+    <a href="https://github.com/AK-projects88" target="_blank" rel="noreferrer" className="data-node link-node">
+      <div className="link-content">
+        <img src="/github.png" alt="GitHub" className="icon-3d" />
+        <span>// GITHUB</span>
+      </div>
+      <div className="node-arrow">↗</div>
+    </a>
+    
+    <a href="https://www.linkedin.com/in/ansh-jha-017683422/" target="_blank" rel="noreferrer" className="data-node link-node">
+      <div className="link-content">
+        <img src="/linkedin.png" alt="LinkedIn" className="icon-3d" />
+        <span>// LINKEDIN</span>
+      </div>
+      <div className="node-arrow">↗</div>
+    </a>
+    
+    <a href="https://x.com/AnshJha438115" target="_blank" rel="noreferrer" className="data-node link-node">
+      <div className="link-content">
+        <img src="/x.png" alt="X" className="icon-3d" />
+        <span>// TWITTER_X</span>
+      </div>
+      <div className="node-arrow">↗</div>
+    </a>
+  </div>
+
+</motion.section>
 
       </motion.div>
 
