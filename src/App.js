@@ -227,11 +227,27 @@ const App = () => {
   const [selectedProject, setSelectedProject] = useState(null);
 
   const projectsData = [
-    { id: 'p1', title: 'Backcast Dashboard', desc: 'Global GDP mathematical projection model.', detail: 'Engineered a highly complex React architecture to process and visualize real-time economic datasets using advanced state management.' },
-    { id: 'p2', title: 'Gig Economy Logistics', desc: 'Micro-economic systems analysis.', detail: 'Mapped high-density delivery routes and analyzed algorithmic efficiency in urban gig-economy environments.' },
-    { id: 'p3', title: 'Volunteer Yatra', desc: 'Cross-cultural field studies portal.', detail: 'Designed and developed a full-stack portal connecting volunteers to rural initiatives, focusing on accessible UI/UX.' }
-  ];
-
+  { 
+    id: 'p1', 
+    title: 'NEXUS Tactical Command', 
+    desc: 'Real-time offline-first mesh network simulator for Society 5.0 disaster infrastructure.', 
+    detail: 'Engineered a Full-Stack geospatial command center utilizing a Node.js/Express backend. Implemented Socket.io for bidirectional WebSocket telemetry with zero-latency updates. The frontend utilizes Leaflet.js and CartoDB dark matter tiles.',
+    liveLink: 'https://nexus-command-erjn.onrender.com',
+    repoLink: 'https://github.com/AK-projects88/nexus-mesh-network'
+  },
+  { 
+    id: 'p2', 
+    title: 'Gig Economy Logistics', 
+    desc: 'Micro-economic systems analysis.', 
+    detail: 'Mapped high-density delivery routes and analyzed...'
+  },
+  { 
+    id: 'p3', 
+    title: 'Volunteer Yatra', 
+    desc: 'Cross-cultural field studies portal.', 
+    detail: 'Designed and developed a full-stack portal connecting...'
+  }
+];
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
   const springX = useSpring(cursorX, { stiffness: 500, damping: 28 });
@@ -677,8 +693,8 @@ const App = () => {
                 <h3>Project Architecture</h3>
                 <p>{selectedProject.detail}</p>
                 <div className="modal-actions">
-                  <MagneticButton className="case-study-btn" onMouseEnter={() => setCursorType('click')} onMouseLeave={() => setCursorType('default')}>View Live Site</MagneticButton>
-                  <MagneticButton className="case-study-btn outline" onMouseEnter={() => setCursorType('click')} onMouseLeave={() => setCursorType('default')}>GitHub Repo</MagneticButton>
+                  <MagneticButton className="case-study-btn" onClick={() => window.open(selectedProject.liveLink, "_blank")} onMouseEnter={() => setCursorType('click')} onMouseLeave={() => setCursorType('default')}>View Live Site</MagneticButton>
+<MagneticButton className="case-study-btn outline" onClick={() => window.open(selectedProject.repoLink, "_blank")} onMouseEnter={() => setCursorType('click')} onMouseLeave={() => setCursorType('default')}>GitHub Repo</MagneticButton>
                 </div>
               </motion.div>
             </motion.div>
