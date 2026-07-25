@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&family=Syne:wght@700;800&display=swap');
 
 * {
   box-sizing: border-box;
@@ -7,9 +7,10 @@
 }
 
 body {
-  background-color: #070707; /* Deep portfolio black */
+  background-color: #25272C; 
   color: #ffffff;
-  font-family: 'Space Grotesk', sans-serif;
+  /* Upgraded to premium, highly-legible body font */
+  font-family: 'Plus Jakarta Sans', sans-serif; 
   overflow-x: hidden;
   min-height: 100vh;
 }
@@ -33,34 +34,47 @@ body {
 }
 
 /* --- 2. BRUTALIST TYPOGRAPHY (HERO SECTION) --- */
-/* --- 2. BRUTALIST TYPOGRAPHY (HERO SECTION) --- */
-
-
+/* --- 2. PREMIUM TYPOGRAPHY (HERO SECTION) --- */
 .hero-title {
-  font-size: 6rem;
-  font-weight: 700;
-  line-height: 0.9;
+  font-family: 'Syne', sans-serif;
+  /* Uses clamp to keep it massive on big screens, but prevents it from stretching past the ID card */
+  font-size: clamp(4rem, 6vw, 6.5rem); 
+  font-weight: 800;
+  line-height: 1.1; /* Adjusted for Syne's natural height */
   text-transform: uppercase;
+  letter-spacing: -0.01em;
+  text-shadow: 0 0 40px rgba(184, 247, 228, 0.15);
+  
+  /* THE FIX: Forces strict left-alignment block */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
-/* The Hollow Text Effect from the video */
+/* The Hollow Text Effect */
 .outline-text {
   color: transparent;
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.4);
-  transition: all 0.4s ease;
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.6); 
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* The Interactive Highlight */
 .outline-text:hover {
-  color: #ffffff;
-  -webkit-text-stroke: 1px transparent;
+  color: #B8F7E4; /* Fills with pure Sky Mint on hover */
+  -webkit-text-stroke: 1.5px #B8F7E4;
+  /* Explodes with light when the mouse touches it */
+  text-shadow: 0 0 60px rgba(184, 247, 228, 0.5); 
 }
 
 .hero-subtext {
-  color: #888;
-  max-width: 400px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: #a0a0a5; /* Cool graphite grey */
+  max-width: 480px;
   margin-top: 30px;
-  font-size: 1.1rem;
+  font-size: 1.25rem; /* Larger and more readable */
   line-height: 1.6;
+  font-weight: 500; /* Increased weight for a premium feel */
+  letter-spacing: 0.02em;
 }
 
 /* --- 3. THE ID CARD PHYSICS ENCLOSURE --- */
@@ -153,10 +167,9 @@ margin: 0 auto;
 }
 
 .nav-link:hover {
-  color: #000000;
-  /* Creates a physically indented pill shape when hovered */
-  background: rgba(0, 0, 0, 0.04); 
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: #B8F7E4; /* Sky Mint */
+  background: rgba(0, 0, 0, 0.9); /* Dark contrast pill */
+  box-shadow: 0 4px 15px rgba(184, 247, 228, 0.2);
 }
 
 /* 6. THE UPGRADED TETHER LANYARD */
@@ -335,42 +348,66 @@ margin: 0 auto;
   font-weight: 600;
 }
 
-/* The Grid Layout */
-.bento-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+/* =========================================
+   THE SWIPER 3D MASTERPIECE
+   ========================================= */
+.portfolio-swiper-container {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%); /* Breaks out to full screen */
+  padding: 40px 0 80px 0;
 }
 
-.bento-box {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 24px;
-  padding: 40px;
-  min-height: 250px;
-  transition: transform 0.3s ease;
+.masterpiece-swiper {
+  width: 100%;
+  padding-top: 20px;
+  padding-bottom: 50px;
 }
 
-.bento-box:not(.magnetic-box):hover {
-  transform: translateY(-5px);
-  background: rgba(255, 255, 255, 0.06);
+/* 1. The Perfect Single Card Size */
+.master-slide {
+  width: 380px; /* Small, structured, and beautiful */
+  height: 480px;
+}
+
+/* 2. The Premium Glassmorphism */
+.bento-box.magnetic-box {
+  width: 100%;
+  height: 100%;
+  padding: 40px !important;
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* Pushes text to the bottom */
+  
+  /* Deep Graphite Glass */
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.01) 100%) !important;
+  backdrop-filter: blur(20px) saturate(120%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(120%) !important;
+  
+  border-radius: 30px !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-left: 1px solid rgba(255, 255, 255, 0.15) !important;
+  
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5) !important;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease !important;
+}
+
+/* 3. The Sky Mint Hover Glow */
+.bento-box.magnetic-box:hover {
+  border-color: rgba(184, 247, 228, 0.4) !important;
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.8), 0 0 50px rgba(184, 247, 228, 0.15), inset 0 2px 20px rgba(184, 247, 228, 0.1) !important;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .master-slide {
+    width: 80vw;
+    height: 420px;
+  }
 }
 /* --- THE LIVING BACKGROUND --- */
-.glow-orb {
-  position: fixed;
-  top: 50%; left: 50%;
-  width: 800px; height: 800px;
-  background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 60%);
-  border-radius: 50%;
-  z-index: -2;
-  pointer-events: none;
-  animation: orb-breathe 10s ease-in-out infinite alternate;
-}
 
-@keyframes orb-breathe {
-  0% { transform: translate(-50%, -50%) scale(1); opacity: 0.4; }
-  100% { transform: translate(-50%, -50%) scale(1.3); opacity: 0.8; }
-}
 
 
 /* --- THE AGENCY UPGRADES --- */
@@ -384,16 +421,7 @@ margin: 0 auto;
   opacity: 0.04;
   background: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
 }
-/* --- THE KINETIC MATH CANVAS --- */
-.kinetic-canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 5; /* Sits right above the black void, below everything else */
-  pointer-events: none; /* Allows you to click 'through' the math grid */
-}
+
 
 /* 2. HIDE THE DEFAULT WINDOWS CURSOR */
 body, button, .id-card {
@@ -738,19 +766,42 @@ body, button, .id-card {
   grid-template-columns: 1fr 1fr; 
   align-items: center;
 }
+/* --- ID CARD WRAPPER FIX --- */
 .id-card-wrapper {
-  position: relative;
-  width: 300px;
-  height: 450px;
-  display: flex;
-  justify-content: center;
+  /* Position relative to keep inside normal flow */
+  position: relative; 
   z-index: 10;
   
-  /* THE X1000 COLLISION FIX */
-  /* We stop using 'margin: 0 auto'. 
-     We shove the card to the far right of its grid space, guaranteeing it clears the 700px Nav Bar */
-  margin-left: auto !important; 
-  margin-right: 20px !important; /* Creates a perfect bumper gap so it doesn't hit your View buttons */
+  /* Remove conflicting inline/duplicate margins */
+  margin-left: auto;
+  margin-right: 20px;
+  margin-top: 40px; /* Provides top clearance so the lanyard ends right at the card top */
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Ensure the red lanyard line sits cleanly behind the card */
+.lanyard-line, 
+.red-strap {
+  z-index: 1; /* Keep line underneath card (z-index: 10) */
+  pointer-events: none;
+}
+
+/* Responsive Alignment Override */
+@media (max-width: 1100px) {
+  .hero-section {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding-top: 130px;
+    gap: 50px;
+  }
+
+  .id-card-wrapper {
+    margin: 0 auto !important; /* Centers card cleanly when stacked */
+    order: -1;                 /* Moves card above text on smaller screens */
+  }
 }
 .app-wrapper.mobile .id-card-wrapper {
   order: 1; 
@@ -780,7 +831,10 @@ body, button, .id-card {
   padding: 60px;
   box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8);
   position: relative;
-  overflow: hidden;
+  
+  /* --- THE X10 ZOOM DEFENSE --- */
+  max-height: 85vh; /* Never lets the modal get taller than 85% of the screen */
+  overflow-y: auto; /* Creates an internal scrollbar if zoomed in too far */
 }
 
 .modal-close-btn {
@@ -984,4 +1038,119 @@ body, button, .id-card {
   0% { opacity: 1; }
   50% { opacity: 0.3; }
   100% { opacity: 1; }
+}
+/* --- THE MASTER RESPONSIVE OVERRIDES (Zoom & Mobile Defense) --- */
+@media (max-width: 1100px) {
+  /* 1. Stack the Hero Section */
+  .hero-section {
+    grid-template-columns: 1fr; /* Drops from 2 columns to 1 */
+    text-align: center;
+    padding-top: 130px;
+    gap: 50px;
+  }
+  
+  .hero-subtext {
+    margin: 30px auto 0 auto; /* Keeps text centered */
+  }
+
+  /* 2. Reposition the ID Card so it sits neatly in the center */
+  .id-card-wrapper {
+    margin: 0 auto !important; 
+    order: -1; /* Pushes the card ABOVE the text when stacked */
+  }
+
+  /* 3. Stack the Contact Command Center */
+  .contact-command-center {
+    flex-direction: column; /* Drops from row to column */
+    gap: 60px;
+  }
+  
+  .contact-title {
+    font-size: 4rem; /* Shrinks the massive text slightly to fit */
+  }
+}
+
+@media (max-width: 600px) {
+  /* Extreme Zoom / Small Phone Defense */
+  .hero-title {
+    font-size: 3.5rem;
+  }
+  .nav-bar {
+    padding: 0 20px;
+  }
+  .nav-links {
+    display: none; /* Hide links on tiny screens to protect the logo */
+  }
+}
+/* =========================================
+   THE TRUE PREMIUM AURA GRADIENT
+   ========================================= */
+
+body {
+  background-color: #25272C; /* THE GRAPHITE VOID */
+  color: #ffffff;
+  font-family: 'Space Grotesk', sans-serif;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* --- THE 3D CANVAS LAYER --- */
+.kinetic-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0; 
+  pointer-events: none; /* Lets you click the UI through the canvas */
+}
+
+/* The physics: slowly drifts the colors around the screen */
+@keyframes floatAura {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(8vw, -10vh) scale(1.15); }
+  66% { transform: translate(-10vw, 8vh) scale(0.85); }
+  100% { transform: translate(5vw, 5vh) scale(1.1); }
+}
+/* --- UI TYPOGRAPHY UPGRADES --- */
+
+/* Nav Logo gets the heavy architectural font */
+.nav-logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  font-size: 1.3rem;
+  color: #000000;
+}
+
+/* Nav Links get wider, high-end tracking */
+.nav-link {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.2em; /* Wide tracking screams premium */
+  font-size: 0.8rem;
+}
+
+/* Tab Buttons get the premium body font */
+.tab-button {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+/* Bento Box Titles inherit the massive Syne font to match the Hero */
+.bento-box h3 {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+}
+
+/* Bento Box Descriptions */
+.bento-box p {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 400;
+  line-height: 1.6;
 }

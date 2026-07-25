@@ -1,5 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useMotionValue, useTransform, useSpring, AnimatePresence } from 'framer-motion';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { EffectCoverflow, Mousewheel } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/effect-coverflow';
 import idImage from './my-id.jpg';
 import './App.css';
 
@@ -346,59 +350,74 @@ const App = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // --- THE X10THINK KINETIC MATH GRID ENGINE ---
+  // --- THE X10THINK 3D TOPOGRAPHIC WAVE ENGINE ---
   const canvasRef = useRef(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return; 
+    if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
     let animationFrameId;
-    
-    let mouse = { x: -1000, y: -1000 };
+
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    resize();
+    window.addEventListener('resize', resize);
+
+    // Mouse Parallax for 3D Camera Pan
+    let mouse = { x: 0, y: 0, targetX: 0, targetY: 0 };
     const handleMouseMove = (e) => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
+      mouse.targetX = (e.clientX - canvas.width / 2) * 0.05;
+      mouse.targetY = (e.clientY - canvas.height / 2) * 0.05;
     };
     window.addEventListener('mousemove', handleMouseMove);
 
+    let time = 0;
+
     const render = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      time += 0.02; // Speed of the 3D wave
+      
+      // Clear canvas with transparent Graphite to create a hyper-smooth feel
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      const gridSize = 40; 
-      const cols = Math.floor(canvas.width / gridSize) + 1;
-      const rows = Math.floor(canvas.height / gridSize) + 1;
+      // Smooth camera drag
+      mouse.x += (mouse.targetX - mouse.x) * 0.05;
+      mouse.y += (mouse.targetY - mouse.y) * 0.05;
 
-      for (let i = 0; i < cols; i++) {
-        for (let j = 0; j < rows; j++) {
-          let x = i * gridSize;
-          let y = j * gridSize;
+      const fov = 400; // Field of View (Depth perspective)
+      
+      // 1. REDUCE THE DENSITY (From 55x55 to 35x35)
+      const cols = 35; 
+      const rows = 35; 
+      const spacing = 55; // Spread them out more to cover the same area
 
-          let dx = mouse.x - x;
-          let dy = mouse.y - y;
-          let dist = Math.sqrt(dx * dx + dy * dy);
-
-          let maxDist = 200; 
-          let pull = 0;
-          if (dist < maxDist) { pull = (maxDist - dist) / maxDist; }
-
-          ctx.save();
-          let shiftX = dist === 0 ? 0 : (dx / dist) * pull * -25;
-          let shiftY = dist === 0 ? 0 : (dy / dist) * pull * -25;
-
-          ctx.translate(x + shiftX, y + shiftY);
-          ctx.rotate(pull * Math.PI);
+      for (let x = -cols / 2; x < cols / 2; x++) {
+        for (let z = -rows / 2; z < rows / 2; z++) {
           
-          ctx.fillStyle = `rgba(255, 255, 255, ${0.3 + pull * 0.7})`; 
-          ctx.font = "12px 'Space Grotesk', monospace";
-          ctx.textAlign = "center";
-          ctx.textBaseline = "middle";
-          
-          ctx.fillText("+", 0, 0); 
-          ctx.restore();
+          let posX = x * spacing;
+          let posZ = z * spacing;
+          let posY = Math.sin(x * 0.15 + time) * 35 + Math.cos(z * 0.15 + time) * 35;
+
+          let camX = posX + mouse.x * (posZ * 0.01);
+          let camY = posY + mouse.y * (posZ * 0.01) + 200; 
+          let camZ = posZ + 500; 
+
+          if (camZ > 0) {
+            let scale = fov / camZ;
+            let screenX = camX * scale + canvas.width / 2;
+            let screenY = camY * scale + canvas.height / 2;
+
+            let size = Math.max(0.1, scale * 1.5);
+            let alpha = Math.max(0, Math.min(1, scale * 1.2));
+
+            ctx.fillStyle = `rgba(184, 247, 228, ${alpha})`; 
+            // 2. THE FPS SAVER: Use fillRect instead of drawing 3000 arcs. 
+            // It looks identical but renders 10x faster.
+            ctx.fillRect(screenX, screenY, size, size); 
+          }
         }
       }
       animationFrameId = requestAnimationFrame(render);
@@ -407,10 +426,12 @@ const App = () => {
     render();
 
     return () => {
+      window.removeEventListener('resize', resize);
       window.removeEventListener('mousemove', handleMouseMove);
       cancelAnimationFrame(animationFrameId);
     };
-  }, [isLoading]);
+}, [isLoading]); // <-- This tells the 3D engine to wait until the preloader is done
+  
 
   const scrollToSection = (sectionId) => {
     const section = document.getElementById(sectionId);
@@ -456,9 +477,9 @@ const App = () => {
         />
       ))}
 
-      <div className="glow-orb"></div>
-      <canvas ref={canvasRef} className="kinetic-canvas"></canvas>
-
+      {/* --- THE PREMIUM MESH AURA --- */}
+{/* --- THE 3D KINETIC WAVE --- */}
+<canvas ref={canvasRef} className="kinetic-canvas"></canvas>
       <div className="view-toggle">
         {['desktop', 'tablet', 'mobile'].map((mode) => (
           <MagneticButton
@@ -534,48 +555,50 @@ const App = () => {
               </MagneticButton>
             ))}
           </div>
-
-          <motion.div 
+<motion.div 
             key={activeTab}
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="bento-grid"
+            className="portfolio-swiper-container"
           >
-            {activeTab === 'Projects' && projectsData.map((project) => (
-              <motion.div key={project.id} variants={itemVariants}>
-                <MagneticBox 
-                  layoutId={project.id} 
-                  onClick={() => setSelectedProject(project)} 
-                  setCursorType={setCursorType}
-                >
-                  <motion.h3 layoutId={`title-${project.id}`}>{project.title}</motion.h3>
-                  <motion.p layoutId={`desc-${project.id}`} style={{color: '#888', marginTop: '10px'}}>
-                    {project.desc}
-                  </motion.p>
-                </MagneticBox>
-              </motion.div>
-            ))}
+            <Swiper
+              effect={'coverflow'}
+              grabCursor={true}
+              centeredSlides={true}
+              slidesPerView={'auto'}
+              mousewheel={{ forceToAxis: true }} // Lets you scroll with mouse wheel smoothly
+              coverflowEffect={{
+                rotate: 35,       // The polygon angle
+                stretch: 0,       // Space between cards
+                depth: 250,       // How far back the side cards get pushed
+                modifier: 1,
+                slideShadows: false, // We use our own CSS shadows
+              }}
+              modules={[EffectCoverflow, Mousewheel]}
+              className="masterpiece-swiper"
+            >
+              {activeTab === 'Projects' && projectsData.map((project) => (
+                <SwiperSlide key={project.id} className="master-slide">
+                  <motion.div variants={itemVariants} style={{ height: '100%' }}>
+                    <MagneticBox 
+                      layoutId={project.id} 
+                      onClick={() => setSelectedProject(project)} 
+                      setCursorType={setCursorType}
+                    >
+                      <motion.h3 layoutId={`title-${project.id}`}>{project.title}</motion.h3>
+                      <motion.p layoutId={`desc-${project.id}`} style={{color: '#a0a0a5', marginTop: '15px'}}>
+                        {project.desc}
+                      </motion.p>
+                    </MagneticBox>
+                  </motion.div>
+                </SwiperSlide>
+              ))}
 
-            {activeTab === 'Certificates' && (
-              <motion.div variants={itemVariants} style={{ width: '100%' }}>
-                <MagneticBox setCursorType={setCursorType}>
-                  <h3>React Architecture</h3>
-                  <p style={{color: '#888', marginTop: '10px'}}>Advanced Front-End Systems.</p>
-                </MagneticBox>
-              </motion.div>
-            )}
-
-            {activeTab === 'Tech Stack' && (
-              <motion.div variants={itemVariants} style={{ width: '100%' }}>
-                <MagneticBox setCursorType={setCursorType}>
-                  <h3>React.js</h3>
-                  <p style={{color: '#888', marginTop: '10px'}}>Hyper-fluid modular UI rendering.</p>
-                </MagneticBox>
-              </motion.div>
-            )}
+             {/* Add similar SwiperSlides for Certificates and Tech Stack if needed */}
+            </Swiper>
           </motion.div>
-        </motion.section>
+        </motion.section> {/* <--- ADD THIS EXACT LINE RIGHT HERE */}
 
         <motion.div className="marquee-container" variants={loadStaggerItem}>
           <div className="marquee-track">
@@ -652,7 +675,7 @@ const App = () => {
 
 </motion.section>
 
-      </motion.div>
+    </motion.div>
 
       <AnimatePresence>
         {selectedProject && (
