@@ -1,0 +1,31 @@
+name: Auto Flex Matrix
+
+on:
+  schedule:
+    # Runs automatically every day at 10:00 AM UTC
+    - cron: '0 10 * * *' 
+  workflow_dispatch: # Allows you to trigger it manually if you want
+
+jobs:
+  auto-commit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: The Ghost Commit
+        run: |
+          # Writes a timestamp to a hidden text file to register a file change
+          echo "Matrix telemetry ping: $(date)" > .telemetry-ping.txt
+          
+          # Configures Git to look exactly like you
+          git config --global user.name "AK-projects88"
+          git config --global user.email "anshfyp88@gmail.com"
+          
+          # Adds, commits, and pushes the change back to your repo
+          git add .telemetry-ping.txt
+          git commit -m "sys: automated matrix telemetry ping"
+          git push
