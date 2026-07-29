@@ -389,11 +389,10 @@ const App = () => {
 
       const fov = 400; // Field of View (Depth perspective)
       
-      // 1. REDUCE THE DENSITY (From 55x55 to 35x35)
-      const cols = 35; 
-      const rows = 35; 
-      const spacing = 55; // Spread them out more to cover the same area
-
+     // 1. HIGH-PERFORMANCE DENSITY OVERRIDE
+      const cols = 25; // Dropped from 35
+      const rows = 25; // Dropped from 35
+      const spacing = 75; // Increased from 55 to cover the same screen space
       for (let x = -cols / 2; x < cols / 2; x++) {
         for (let z = -rows / 2; z < rows / 2; z++) {
           
@@ -457,13 +456,11 @@ const App = () => {
         {cursorType === 'click' ? 'CLICK' : cursorType === 'drag' ? 'DRAG' : cursorType === 'ignite' ? 'HOLD' : ''}
       </motion.div>
 
-      {/* Fluid Cursor Trails (Geometric fade/aura) */}
+      {/* Fluid Cursor Trails (Optimized to 3 for performance) */}
       {[
         { x: t1X, y: t1Y, scale: 0.85, opacity: 0.75 },
-        { x: t2X, y: t2Y, scale: 0.70, opacity: 0.55 },
-        { x: t3X, y: t3Y, scale: 0.55, opacity: 0.35 },
-        { x: t4X, y: t4Y, scale: 0.40, opacity: 0.20 },
-        { x: t5X, y: t5Y, scale: 0.25, opacity: 0.10 }
+        { x: t2X, y: t2Y, scale: 0.60, opacity: 0.45 },
+        { x: t3X, y: t3Y, scale: 0.35, opacity: 0.20 }
       ].map((trail, idx) => (
         <motion.div
           key={idx}
@@ -473,6 +470,7 @@ const App = () => {
             y: trail.y,
             scale: trail.scale,
             opacity: trail.opacity,
+            willChange: "transform" // Forces GPU on the cursor
           }}
         />
       ))}

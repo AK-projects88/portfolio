@@ -391,6 +391,9 @@ margin: 0 auto;
   
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5) !important;
   transition: border-color 0.4s ease, box-shadow 0.4s ease !important;
+  /* ADD THESE TWO LINES TO FORCE GPU ACCELERATION */
+  will-change: transform, backdrop-filter;
+  transform: translateZ(0);
 }
 
 /* 3. The Sky Mint Hover Glow */
@@ -1099,10 +1102,8 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 0; 
-  pointer-events: none; /* Lets you click the UI through the canvas */
+  z-index: -1;
+  pointer-events: none; /* CRITICAL: Stops the canvas from lagging out the mouse */
 }
 
 /* The physics: slowly drifts the colors around the screen */
