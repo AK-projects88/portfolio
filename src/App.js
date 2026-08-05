@@ -229,7 +229,8 @@ const App = () => {
   const [cursorType, setCursorType] = useState('default');
   const [viewMode, setViewMode] = useState('desktop'); 
   const [selectedProject, setSelectedProject] = useState(null);
-
+// --- PHASE 1 FIX: LAZY LOAD STATE ---
+  const [isCanvasMounted, setIsCanvasMounted] = useState(false);
   const projectsData = [
   { 
     id: 'p1', 
@@ -345,8 +346,14 @@ const App = () => {
     }
   };
 
-  useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 2500);
+ useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false); // 1. Reveal the UI instantly
+      
+      // 2. Wait 500ms for React to settle, THEN mount the heavy 3D Canvas
+      setTimeout(() => setIsCanvasMounted(true), 500); 
+    }, 2500);
+    
     return () => clearTimeout(timer);
   }, []);
 
@@ -409,13 +416,16 @@ const App = () => {
             let screenX = camX * scale + canvas.width / 2;
             let screenY = camY * scale + canvas.height / 2;
 
-            let size = Math.max(0.1, scale * 1.5);
-            let alpha = Math.max(0, Math.min(1, scale * 1.2));
+            // THE 60FPS OPTIMIZATION: No shadowBlur, just raw size and alpha scaling
+            let size = Math.max(1.2, scale * 2.5); 
+            let alpha = Math.max(0.1, Math.min(1, scale * 3.0)); 
 
+            // Pure Sky Mint color, rendered instantly
             ctx.fillStyle = `rgba(184, 247, 228, ${alpha})`; 
-            // 2. THE FPS SAVER: Use fillRect instead of drawing 3000 arcs. 
-            // It looks identical but renders 10x faster.
             ctx.fillRect(screenX, screenY, size, size); 
+            
+            // VERY IMPORTANT: Ensure we do NOT have shadow properties here
+            ctx.shadowBlur = 0;
           }
         }
       }
@@ -429,7 +439,7 @@ const App = () => {
       window.removeEventListener('mousemove', handleMouseMove);
       cancelAnimationFrame(animationFrameId);
     };
-}, [isLoading]); // <-- This tells the 3D engine to wait until the preloader is done
+}, [isCanvasMounted]); // <-- We tell it to fire ONLY when the canvas actually exists
   
 
   const scrollToSection = (sectionId) => {
@@ -475,9 +485,12 @@ const App = () => {
         />
       ))}
 
-      {/* --- THE PREMIUM MESH AURA --- */}
-{/* --- THE 3D KINETIC WAVE --- */}
-<canvas ref={canvasRef} className="kinetic-canvas"></canvas>
+    {/* --- PHASE 1 FIX: LAZY LOADED 3D KINETIC WAVE --- */}
+      {isCanvasMounted && <canvas ref={canvasRef} className="kinetic-canvas"></canvas>}
+      
+      {/* --- PHASE 1 FIX: THE CONTRAST OVERLAY --- */}
+      <div className="contrast-overlay"></div>
+
       <div className="view-toggle">
         {['desktop', 'tablet', 'mobile'].map((mode) => (
           <MagneticButton
@@ -511,7 +524,10 @@ const App = () => {
         <motion.section className="hero-section" variants={loadStaggerItem}>
           <div>
             <h1 className="hero-title">
-              <DecoderText text="FRONTEND" delay={2600} /><br />
+              <span className="solid-text">
+                <DecoderText text="FRONTEND" delay={2600} />
+              </span>
+              {/* The <br /> is GONE. Flex-column handles the stacking now. */}
               <span className="outline-text">
                 <DecoderText text="DEVELOPER" delay={3200} />
               </span>
