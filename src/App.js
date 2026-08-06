@@ -601,9 +601,9 @@ const App = () => {
                       setCursorType={setCursorType}
                     >
                       <motion.h3 layoutId={`title-${project.id}`}>{project.title}</motion.h3>
-                      <motion.p layoutId={`desc-${project.id}`} style={{color: '#a0a0a5', marginTop: '15px'}}>
-                        {project.desc}
-                      </motion.p>
+                      <motion.p layoutId={`desc-${project.id}`} style={{color: '#a0a0a5'}}>
+  {project.desc}
+</motion.p>
                     </MagneticBox>
                   </motion.div>
                 </SwiperSlide>

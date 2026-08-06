@@ -335,9 +335,14 @@ margin: 0 auto;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: #888;
-  padding: 12px 30px;
+  
+  /* THE GRID FIX: Strict 16px vertical, 24px horizontal */
+  padding: 16px 24px; 
+  
   border-radius: 100px;
-  font-family: inherit;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.05em;
   font-size: 1rem;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -375,29 +380,30 @@ margin: 0 auto;
   height: 480px;
 }
 
-/* 2. The Premium Glassmorphism */
 .bento-box.magnetic-box {
   width: 100%;
   height: 100%;
-  padding: 40px !important;
+  
+  /* THE GRID FIX: Changed from 40px to 16px to pass the checker */
+  padding: 16px !important;
   
   display: flex;
   flex-direction: column;
-  justify-content: flex-end; /* Pushes text to the bottom */
+  justify-content: flex-end; 
   
-  /* Deep Graphite Glass */
+  /* THE GRID FIX: Forces a strict 16px space between the title and description */
+  gap: 16px; 
+  
+  /* ... keep your existing background, border, and GPU optimizations here ... */
   background: linear-gradient(145deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.01) 100%) !important;
   backdrop-filter: blur(20px) saturate(120%) !important;
   -webkit-backdrop-filter: blur(20px) saturate(120%) !important;
-  
   border-radius: 30px !important;
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
   border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
   border-left: 1px solid rgba(255, 255, 255, 0.15) !important;
-  
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5) !important;
   transition: border-color 0.4s ease, box-shadow 0.4s ease !important;
-  /* ADD THESE TWO LINES TO FORCE GPU ACCELERATION */
   will-change: transform, backdrop-filter;
   transform: translateZ(0);
 }
@@ -408,13 +414,7 @@ margin: 0 auto;
   box-shadow: 0 40px 80px rgba(0, 0, 0, 0.8), 0 0 50px rgba(184, 247, 228, 0.15), inset 0 2px 20px rgba(184, 247, 228, 0.1) !important;
 }
 
-/* Mobile Responsiveness */
-@media (max-width: 768px) {
-  .master-slide {
-    width: 80vw;
-    height: 420px;
-  }
-}
+
 /* --- THE LIVING BACKGROUND --- */
 
 
@@ -561,7 +561,10 @@ body, button, .id-card {
   font-weight: 700;
   font-size: 0.75rem;
   letter-spacing: 0.1em;
-  padding: 12px 20px;
+  
+  /* THE GRID FIX: Unified 8px multiplier */
+  padding: 16px 24px; 
+  
   border-radius: 50px;
   cursor: none;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -904,7 +907,10 @@ body, button, .id-card {
   background: #fff;
   color: #000;
   border: none;
-  padding: 15px 30px;
+  
+  /* THE GRID FIX: Matches the exact padding of all other buttons */
+  padding: 16px 24px; 
+  
   border-radius: 100px;
   font-family: inherit;
   font-weight: 700;
@@ -1180,4 +1186,234 @@ body {
 .app-wrapper {
   position: relative;
   z-index: 10; 
+}
+/* --- PHASE 2 FIX: MASTER BUTTON NORMALIZATION --- */
+/* Forces every button on the site to follow the exact same architectural grid */
+.nav-link, 
+.view-btn, 
+.tab-button, 
+.case-study-btn {
+  /* 12px vertical + 24px horizontal perfectly locks the height to 40px */
+  padding: 12px 24px !important; 
+  
+  /* Standardizes typography so no button is taller than another */
+  font-size: 0.85rem !important; 
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  
+  /* Locks the font weight at 700 so buttons STOP stretching when you click them */
+  font-weight: 700 !important;   
+  
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+}
+
+/* Forces the active border to match the inactive border mathematically */
+.tab-button.active {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border: 1px solid #ffffff !important; 
+}
+/* --- PHASE 2 FIX: STRICT 96px SECTION GAPS --- */
+.portfolio-section,
+.about-section,
+.contact-command-center {
+  /* 96px top/bottom gives the site massive breathing room, 40px left/right keeps it off the edges */
+  padding: 96px 40px !important; 
+  
+  /* Centers the max-width containers perfectly */
+  margin: 0 auto !important; 
+}
+/* =========================================
+   THE TRUE MOBILE ARCHITECTURE OVERRIDE
+   ========================================= */
+
+@media (max-width: 768px) {
+  /* 1. THE VIEWPORT LOCK: Strictly forbids any element from stretching the screen horizontally */
+  html, body {
+    overflow-x: hidden !important;
+    width: 100vw !important;
+    max-width: 100% !important;
+  }
+  .app-wrapper {
+    overflow-x: hidden !important;
+    width: 100% !important;
+  }
+
+  /* 2. HEADER CLEANUP */
+  .view-toggle { display: none !important; }
+  .nav-bar { 
+    justify-content: center !important; 
+    padding: 0 20px !important; 
+    width: calc(100% - 40px) !important;
+  }
+  .nav-links { display: none !important; }
+
+  /* 3. HERO ALIGNMENT & TEXT WRAPPER FIX */
+  .hero-section {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    padding: 130px 20px 40px 20px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Targets the invisible wrapper div around the text */
+  .hero-section > div:first-child {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    width: 100% !important;
+    order: 2 !important; 
+    /* INCREASED GAP: Forces the text 50px away from the ID card */
+    margin-top: 50px !important; 
+  }
+
+  .id-card-wrapper {
+    order: 1 !important; 
+    margin: 0 auto !important;
+    width: 100% !important;
+    transform: scale(0.85); 
+  }
+
+  .hero-title {
+    /* MATHEMATICAL SCALING FIX: Dropped to 8.5vw to account for the ultra-wide Syne font */
+    font-size: 8.5vw !important; 
+    line-height: 1 !important;
+    align-items: center !important;
+    text-align: center !important;
+    width: 100% !important;
+    /* Kills any extra tracking that could push letters off the edge */
+    letter-spacing: 0 !important; 
+  }
+
+  .hero-subtext {
+    font-size: 1.1rem !important;
+    text-align: center !important;
+    margin: 20px auto 0 auto !important;
+    width: 90% !important; 
+  }
+
+  /* 4. PORTFOLIO TABS (Fixes Button Stacking) */
+  .portfolio-section {
+    padding: 60px 20px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  .tab-container {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    padding: 0 !important;
+    gap: 12px !important;
+  }
+  .tab-button {
+    width: 100% !important;
+    margin: 0 !important;
+  }
+  
+  /* 5. SWIPER FIX (Kills the horizontal scroll hack) */
+  .portfolio-swiper-container {
+    margin-left: 0 !important;
+    width: 100% !important;
+    padding: 20px 0 40px 0 !important;
+  }
+  .master-slide {
+    width: 85vw !important;
+    height: 400px !important;
+  }
+
+  /* 6. ABOUT SECTION (Fixes PHILOSOPHY cutoff) */
+  .about-section {
+    padding: 60px 20px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  .about-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 30px !important;
+  }
+  .about-header h2 {
+    font-size: 3.5rem !important; /* CRITICAL: Scaled down from 5rem */
+    text-align: center !important;
+  }
+  .about-text p {
+    font-size: 1.1rem !important;
+    text-align: center !important;
+  }
+
+  /* 7. CONTACT SECTION (Fixes overlapping panels) */
+  .contact-command-center {
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 60px 20px 100px 20px !important;
+    gap: 30px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  .contact-center, .side-panel {
+    width: 100% !important;
+    min-width: 100% !important;
+    align-items: center !important;
+  }
+  .contact-center {
+    order: -1 !important; /* Puts the main button at the top */
+  }
+  .contact-title {
+    font-size: 3rem !important;
+    text-align: center !important;
+    margin-bottom: 30px !important;
+  }
+  .data-node {
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  .ignition-btn {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  /* 8. THE BOOT SEQUENCE (The Inline-Block Centering Fix) */
+  .loading-screen, 
+  .loader,
+  .preloader {
+    display: flex !important;
+    justify-content: center !important; 
+    align-items: center !important;     
+    width: 100vw !important;
+    height: 100vh !important;
+    padding: 20px !important;
+    box-sizing: border-box !important;
+  }
+  
+  .loading-screen > *, 
+  .loader > *,
+  .loading-text {
+    /* THE FIX: Shrink-wraps the container so Flexbox can properly center it */
+    display: inline-block !important; 
+    
+    /* Keeps the terminal aesthetic intact */
+    text-align: left !important; 
+    
+    /* Resets any conflicting widths or margins */
+    width: auto !important; 
+    margin: 0 !important; 
+    
+    font-size: 1.2rem !important; 
+    letter-spacing: 0.2em !important;
+  }
+  /* 9. KILL CUSTOM CURSOR ON TOUCH DEVICES */
+  .custom-cursor,
+  .custom-cursor-trail {
+    display: none !important; /* Completely removes the glowing dots from the DOM */
+    visibility: hidden !important;
+  }
+
+  /* Restores native touch/tap behavior for the entire site */
+  * {
+    cursor: auto !important; 
+  }
 }
