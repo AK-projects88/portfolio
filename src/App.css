@@ -228,94 +228,155 @@ margin: 0 auto;
   padding-top: 180px; 
 }
 
-/* The Actual Card */
-.id-card {
+/* =========================================
+   THE X10THINK 3D DUAL-SIDED ID CARD
+   ========================================= */
+
+/* =========================================
+   THE X10THINK 3D DUAL-SIDED ID CARD
+   ========================================= */
+
+/* The Ambient Micro-Physics (Breathes life into the static card) */
+@keyframes ambientSway {
+  0% { transform: translateY(0px) rotateZ(0deg); }
+  50% { transform: translateY(-8px) rotateZ(1.5deg); }
+  100% { transform: translateY(0px) rotateZ(0deg); }
+}
+
+/* 1. The 3D Camera Lens */
+.id-card-3d-perspective {
+  perspective: 1500px;
   position: relative;
-  width: 260px;
-  height: 380px;
-  border-radius: 12px; 
-  padding: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  cursor: grab;
-  z-index: 2;
-  margin-top: 50px;
+  margin-top: 40px; 
+  z-index: 10;
+  transform-style: preserve-3d;
   
-  /* --- THE REAL PHOTOGRAPHIC TITANIUM ASSET --- */
-  /* --- THE REAL PHOTOGRAPHIC TITANIUM ASSET --- */
-  background-color: #111;
-  background-image: 
-    linear-gradient(145deg, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.8) 80%),
-    url("./dark-metal.jpg");
-  background-blend-mode: overlay;
-  background-size: cover;
-  background-position: center;
-  
-  /* CNC Machined Outer Edge */
-  border: 1px solid #000;
-  border-top: 1px solid #4a4d52;
-  border-left: 1px solid #3a3d42;
-  
-  /* True Physical Mass Shadow & Edge Chamfer */
-  box-shadow: 
-    inset 0 1px 1px rgba(255, 255, 255, 0.2), 
-    inset 0 -2px 10px rgba(0, 0, 0, 0.9),    
-    25px 35px 45px rgba(0, 0, 0, 0.95);        
-
-  backdrop-filter: none !important; 
-  -webkit-backdrop-filter: none !important;
+  /* Pins the animation to the ceiling and applies the breathing physics */
+  transform-origin: top center;
+  animation: ambientSway 7s ease-in-out infinite;
 }
-
-.id-card:active {
-  cursor: grabbing;
-}
-
-.id-card:active {
-  cursor: grabbing;
-}
-
-/* Changes cursor when actively dragging the metal card */
-.id-card:active {
-  cursor: grabbing;
-}
-
-/* The cutout slot for the lanyard */
-.id-card-hole {
-  width: 60px;
-  height: 8px;
-  background: #000;
-  border-radius: 10px;
-  margin-bottom: 30px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
-}
-
-/* The Photo */
-/* The Actual Card Wrapper */
-.id-card {
+/* 2. The Physical Mass Container (THE FIX IS HERE) */
+.id-card-physics-body {
   position: relative;
-  width: 280px;       /* Slightly wider to fit your graphic's aspect ratio */
-  height: 440px;      /* Taller to match the image */
-  border-radius: 16px; /* Rounds the corners of your image perfectly */
-  cursor: grab; 
-  z-index: 2;
-  box-shadow: 0 30px 60px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.1);
-  margin-top: 50px; 
-  overflow: hidden;   /* CRITICAL: This chops off the sharp edges of your image so it stays rounded */
-  border: 1px solid rgba(255,255,255,0.1);
+  width: 280px;  /* CRITICAL: Locks the container width */
+  height: 440px; /* CRITICAL: Locks the container height */
+  transform-style: preserve-3d;
+  cursor: grab;
+  filter: drop-shadow(0 30px 40px rgba(0,0,0,0.6));
 }
 
-.id-card:active {
+.id-card-physics-body:active {
   cursor: grabbing;
 }
 
-/* The Image Itself */
-.id-card-graphic {
+/* 3. The Flip Rotator */
+.id-card-flip-container {
   width: 100%;
   height: 100%;
-  object-fit: cover;  /* Ensures the image fills the box without squishing */
-  pointer-events: none; /* CRITICAL: Stops the browser from trying to "save" the image when you drag it */
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+/* 4. The Faces (Front & Back) */
+.id-card-face {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; 
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden; 
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 
+    inset 0 0 0 1px rgba(255,255,255,0.05), 
+    inset 0 2px 10px rgba(0,0,0,0.8);       
+  background-color: #111;
+}
+
+.id-card-front {
+  transform: translateZ(1px);
+}
+
+.id-card-back {
+  transform: rotateY(180deg) translateZ(1px);
+}
+
+.id-card-face img {
+  width: 100%; 
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+/* 5. The Dynamic PVC Plastic Glare */
+.glare-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  z-index: 5;
+  
+  /* CRITICAL: soft-light protects your deep blacks while creating a rich, glossy highlight */
+  mix-blend-mode: soft-light; 
+  
+  /* Adds a permanent, faint inner glow to simulate thick plastic edging */
+  box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.08);
+}
+
+/* 6. Realistic Machined Hardware */
+.hardware-slot {
+  position: absolute;
+  top: 15px; left: 50%;
+  transform: translateX(-50%) translateZ(2px);
+  width: 55px; 
+  height: 14px;
+  background: #050505; 
+  border-radius: 10px;
+  box-shadow: 
+    inset 0 3px 6px rgba(0,0,0,0.9), 
+    0 1px 0 rgba(255,255,255,0.15);
+  z-index: 10;
+}
+
+.hardware-clip {
+  position: absolute;
+  top: -30px; left: 50%;
+  transform: translateX(-50%) translateZ(0); 
+  width: 34px; 
+  height: 55px;
+  background: linear-gradient(135deg, #a6a6a6 0%, #ffffff 25%, #7a7a7a 50%, #e0e0e0 75%, #666666 100%);
+  border-radius: 6px;
+  z-index: -1;
+  box-shadow: 
+    0 8px 15px rgba(0,0,0,0.7), 
+    inset 0 0 0 1px rgba(255,255,255,0.9),
+    inset 0 2px 4px rgba(255,255,255,0.8);
+  display: flex;
+  justify-content: center;
+}
+
+.hardware-hole {
+  margin-top: 6px;
+  width: 18px;
+  height: 6px;
+  background: #111;
+  border-radius: 10px;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.9), 0 1px 0 rgba(255,255,255,0.6);
+}
+
+/* 7. The Lanyard Thread */
+.lanyard-thread {
+  position: absolute;
+  top: -1000px; left: 50%;
+  transform: translateX(-50%);
+  width: 22px; 
+  height: 1000px;
+  background: linear-gradient(to right, #7a0000 0%, #e50914 20%, #e50914 80%, #7a0000 100%);
+  box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.6), 0 10px 30px rgba(0, 0, 0, 0.4); 
+  z-index: -2;
 }
 
 /* --- 4. THE BENTO BOX GRID & TABS --- */
@@ -1227,6 +1288,159 @@ body {
   margin: 0 auto !important; 
 }
 /* =========================================
+   PHASE 4: THE COGNITIVE ANCHOR (CTA)
+   ========================================= */
+/* =========================================
+   PHASE 4: ORIGINKIT CTA ENGINE
+   ========================================= */
+.cta-command-center {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* FIX: Snaps the button to the left axis on desktop */
+  gap: 20px; 
+  margin-top: 50px;
+  width: 100%;
+  z-index: 20; 
+}
+
+/* 1. The Reactor (Primary Action) */
+.primary-reactor {
+  background: #ffffff;
+  color: #000000;
+  
+  /* Desktop specs: 220px width */
+  width: 220px; 
+  padding: 16px 24px; 
+  border-radius: 100px;
+  border: none;
+  
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  
+  /* The Heartbeat Pulse & Magnetic Physics */
+  position: relative;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: heartbeatPulse 2.5s infinite;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* The Magnetic Lift on Hover */
+.primary-reactor:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 15px 30px rgba(255, 255, 255, 0.2), 0 0 40px rgba(255, 255, 255, 0.1);
+  animation: none; /* Kills the pulse so the physical lift takes over */
+}
+
+/* The Subconscious Movement Trigger */
+@keyframes heartbeatPulse {
+  0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
+  70% { box-shadow: 0 0 0 15px rgba(255, 255, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+}
+
+.escape-hatch-link {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  opacity: 0.4;
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  padding: 8px 0; /* FIX: Removes left padding so it perfectly aligns with the button */
+}
+
+.escape-hatch-link:hover {
+  opacity: 1; /* Rewards the user for investigating */
+  transform: translateY(-2px);
+}
+/* =========================================
+   PHASE 4: ORIGINKIT CTA ENGINE
+   ========================================= */
+.cta-command-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  gap: 20px; 
+  margin-top: 50px;
+  width: 100%;
+  z-index: 20; 
+}
+
+/* 1. The Magnetic Base */
+.originkit-btn {
+  background: #ffffff;
+  padding: 24px 48px !important; 
+  border-radius: 100px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+  transition: background 0.3s ease;
+  width: auto !important; 
+  max-width: 90vw;
+}
+
+.originkit-btn:hover {
+  background: #B8F7E4 !important; 
+}
+
+/* 2. The Crystal Glow Text */
+.crystal-text {
+  color: #000000;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 900;
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 2;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.originkit-btn:hover .crystal-text {
+  color: #000000; /* Much better readability on mint */
+  transform: translateY(-2px);
+  text-shadow: 
+    1px 1px 0 #F57F17,
+    2px 2px 0 #F57F17,
+    3px 3px 0 #F57F17,
+    4px 4px 0 #F57F17,
+    5px 5px 0 #F57F17;
+}
+
+/* 3. The Escape Hatch Link */
+.escape-hatch-link {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  opacity: 0.4;
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  padding: 8px;
+}
+
+.escape-hatch-link:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+/* =========================================
    THE TRUE MOBILE ARCHITECTURE OVERRIDE
    ========================================= */
 
@@ -1417,3 +1631,7 @@ body {
     cursor: auto !important; 
   }
 }
+/* PHASE 4: MOBILE CTA CENTERING */
+  .cta-command-center {
+    align-items: center !important; /* Forces the button back to the middle on phones */
+  }

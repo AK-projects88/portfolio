@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, useMotionValue, useTransform, useSpring, AnimatePresence } from 'framer-motion';
+import { motion, useMotionValue, useTransform, useSpring, AnimatePresence, useMotionTemplate } from 'framer-motion';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCoverflow, Mousewheel } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
-import idImage from './my-id.jpg';
+import idFront from './my-id-front.png';
+import idBack from './my-id-back.png';
 import './App.css';
 
 // --- THE X10THINK CRYPTOGRAPHIC CIPHER ENGINE ---
@@ -221,7 +222,100 @@ const IgnitionButton = ({ setCursorType }) => {
     </div>
   );
 };
+// --- ORIGINKIT MAGNETIC WRAPPER ---
+const OriginkitMagneticButton = ({ children, className, onMouseEnter, onMouseLeave }) => {
+  const ref = useRef(null);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
 
+  const handleMouse = (e) => {
+    const { clientX, clientY } = e;
+    const { height, width, left, top } = ref.current.getBoundingClientRect();
+    const middleX = clientX - (left + width / 2);
+    const middleY = clientY - (top + height / 2);
+    setPosition({ x: middleX * 0.15, y: middleY * 0.15 });
+  };
+
+  const reset = () => {
+    setPosition({ x: 0, y: 0 });
+  };
+
+  return (
+    <motion.button
+      ref={ref}
+      onMouseMove={handleMouse}
+      onMouseLeave={() => { reset(); if (onMouseLeave) onMouseLeave(); }}
+      onMouseEnter={onMouseEnter}
+      animate={{ x: position.x, y: position.y }}
+      transition={{ type: "spring", stiffness: 400, damping: 15, mass: 0.1 }}
+      className={`originkit-btn ${className || ''}`}
+    >
+      {children}
+    </motion.button>
+  );
+};
+// --- THE X10THINK 3D DUAL-SIDED CARD ENGINE ---
+const IDCardEngine = ({ setCursorType }) => {
+  const [isFlipped, setIsFlipped] = useState(false);
+  
+  // 1. Core Mass Trackers
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  
+  // 2. Pendulum Swing Physics
+  const rotateX = useSpring(useTransform(y, [-200, 200], [15, -15]), { stiffness: 200, damping: 20, mass: 1.5 });
+  const rotateYDrag = useSpring(useTransform(x, [-200, 200], [-15, 15]), { stiffness: 200, damping: 20, mass: 1.5 });
+
+  // 3. THE LIGHT ENGINE (Upgraded to a sharp, overhead specular highlight)
+  // Extending the mapping to [150, -50] allows the light to travel completely off the edges of the card
+  const lightX = useSpring(useTransform(x, [-200, 200], [150, -50]), { stiffness: 150, damping: 20 });
+  const lightY = useSpring(useTransform(y, [-200, 200], [150, -50]), { stiffness: 150, damping: 20 });
+  
+  // Tightened the radius from 60% down to 25% to create a sharp reflection, not a global fog
+  const glareBackground = useMotionTemplate`radial-gradient(circle at ${lightX}% ${lightY}%, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 25%)`;
+
+  return (
+    <div className="id-card-3d-perspective">
+      <motion.div 
+        className="id-card-physics-body"
+        style={{ x, y, rotateX, rotateY: rotateYDrag }}
+        drag
+        dragElastic={0.12} 
+        dragConstraints={{ top: 0, bottom: 0, left: 0, right: 0 }}
+        onMouseEnter={() => setCursorType('drag')}
+        onMouseLeave={() => setCursorType('default')}
+        onClick={() => setIsFlipped(!isFlipped)} 
+      >
+        <div className="lanyard-thread"></div>
+
+        {/* Upgraded Hardware Clip */}
+        <div className="hardware-clip">
+          <div className="hardware-hole"></div>
+        </div>
+        <div className="hardware-slot"></div>
+
+        <motion.div 
+          className="id-card-flip-container"
+          initial={false}
+          animate={{ rotateY: isFlipped ? 180 : 0 }}
+          transition={{ type: "spring", stiffness: 120, damping: 18, mass: 1.2 }}
+        >
+          {/* FRONT */}
+          <div className="id-card-face id-card-front">
+            <img src={idFront} alt="ID Front" />
+            {/* The Dynamic Ray-Traced Light */}
+            <motion.div className="glare-overlay" style={{ background: glareBackground }} />
+          </div>
+          
+          {/* BACK */}
+          <div className="id-card-face id-card-back">
+            <img src={idBack} alt="ID Back" />
+            <motion.div className="glare-overlay" style={{ background: glareBackground }} />
+          </div>
+        </motion.div>
+      </motion.div>
+    </div>
+  );
+};
 // --- MAIN APP COMPONENT ---
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -283,8 +377,7 @@ const App = () => {
     return () => window.removeEventListener('mousemove', moveCursor);
   }, []);
 
-  const dragX = useMotionValue(0);
-  const rotate = useTransform(dragX, [-200, 200], [-15, 15]);
+  
 
   const cursorVariants = {
     default: { width: 20, height: 20, backgroundColor: "#ffffff", border: "0px solid #ffffff", mixBlendMode: "difference", color: "transparent" },
@@ -520,39 +613,40 @@ const App = () => {
             <MagneticButton className="nav-link" onClick={() => scrollToSection('contact')} onMouseEnter={() => setCursorType('click')} onMouseLeave={() => setCursorType('default')}>Contact</MagneticButton>
           </div>
         </motion.nav>
-
-        <motion.section className="hero-section" variants={loadStaggerItem}>
+<motion.section className="hero-section" variants={loadStaggerItem}>
           <div>
             <h1 className="hero-title">
               <span className="solid-text">
                 <DecoderText text="FRONTEND" delay={2600} />
               </span>
-              {/* The <br /> is GONE. Flex-column handles the stacking now. */}
               <span className="outline-text">
                 <DecoderText text="DEVELOPER" delay={3200} />
               </span>
             </h1>
             <p className="hero-subtext">
-              I build interactive digital experiences through mathematical modeling, strategy, and high-performance code.
+              I build interactive digital experiences through mathematical
+              modeling, strategy, and high-performance code.
             </p>
+
+            {/* --- PHASE 4: THE ORIGINKIT COGNITIVE ANCHOR --- */}
+            <div className="cta-command-center">
+              <OriginkitMagneticButton 
+                onMouseEnter={() => setCursorType('click')} 
+                onMouseLeave={() => setCursorType('default')}
+              >
+                <span className="crystal-text">INITIATE_PROJECT</span>
+              </OriginkitMagneticButton>
+              
+              <button className="escape-hatch-link" onClick={() => scrollToSection('work')}>
+                // DEPLOY ARCHITECTURE (VIEW WORK)
+              </button>
+            </div>
+            {/* -------------------------------------- */}
           </div>
 
-          <div className="id-card-wrapper">
-            <motion.div 
-              style={{ x: dragX, rotate: rotate, transformOrigin: "top center", position: "relative", width: "100%", height: "100%", display: "flex", justifyContent: "center" }}
-              initial={{ y: -1000, rotate: 15 }}
-              animate={{ y: 0, rotate: 0 }}
-              transition={{ type: "spring", mass: 2, damping: 12, bounce: 0.4 }}
-              drag dragElastic={0.2} dragConstraints={{ top: 0, bottom: 0, left: 0, right: 0 }} 
-              onMouseEnter={() => setCursorType('drag')}
-              onMouseLeave={() => setCursorType('default')}
-            >
-              <div className="lanyard"></div>
-              <div className="id-card">
-                <img src={idImage} alt="Ansh Jha ID" className="id-card-graphic" />
-              </div>
-            </motion.div>
-          </div>
+          {/* THE NEW X10THINK 3D DUAL-SIDED ENGINE GOES HERE */}
+          <IDCardEngine setCursorType={setCursorType} />
+
         </motion.section>
 
         <motion.section id="work" className="portfolio-section" variants={loadStaggerItem}>
