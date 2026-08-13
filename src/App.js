@@ -4,8 +4,12 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCoverflow, Mousewheel } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
+import Lenis from '@studio-freight/lenis';
 import idFront from './my-id-front.png';
 import idBack from './my-id-back.png';
+import nexusImg from './nexus.png';
+import gigImg from './gig.png';
+import yatraImg from './yatra.png';
 import './App.css';
 
 // --- THE X10THINK CRYPTOGRAPHIC CIPHER ENGINE ---
@@ -184,9 +188,9 @@ const IgnitionButton = ({ setCursorType }) => {
     setCursorType('default');
     cancelAnimationFrame(animationRef.current);
     
-    // THE TRUSTED-EVENT BYPASS: Triggers ONLY when the user physically lets go at 100%
+    // THE TRUSTED-EVENT BYPASS: Triggers ONLY when the user holds the ignition
     if (progressRef.current >= 100) {
-      window.open("https://mail.google.com/mail/?view=cm&fs=1&to=anshfyp88@gmail.com", "_blank");
+      window.open("https://mail.google.com/mail/?view=cm&fs=1&to=anshfyp88@gmail.com");
       navigator.clipboard.writeText("anshfyp88@gmail.com");
       progressRef.current = 0;
       setProgress(0);
@@ -217,7 +221,7 @@ const IgnitionButton = ({ setCursorType }) => {
     >
       <div className="ignition-fill" style={{ width: `${progress}%` }}></div>
       <span className="ignition-text">
-        {progress >= 100 ? 'RELEASE TO INITIATE' : progress > 0 ? `UPLOADING... ${Math.floor(progress)}%` : 'HELLO@ANSH.JHA'}
+        {progress >= 100 ? 'RELEASE TO INITIATE' : progress > 0 ? `UPLOADING... ${Math.floor(progress)}%` : 'MAILTO://ANSH.JHA@SYSTEM.NET'}
       </span>
     </div>
   );
@@ -325,26 +329,29 @@ const App = () => {
   const [selectedProject, setSelectedProject] = useState(null);
 // --- PHASE 1 FIX: LAZY LOAD STATE ---
   const [isCanvasMounted, setIsCanvasMounted] = useState(false);
-  const projectsData = [
+ const projectsData = [
   { 
     id: 'p1', 
-    title: 'NEXUS Tactical Command', 
+    title: 'NEXUS_TACTICAL_COMMAND // V.1.0', 
     desc: 'Real-time offline-first mesh network simulator for Society 5.0 disaster infrastructure.', 
     detail: 'Engineered a Full-Stack geospatial command center utilizing a Node.js/Express backend. Implemented Socket.io for bidirectional WebSocket telemetry with zero-latency updates. The frontend utilizes Leaflet.js and CartoDB dark matter tiles.',
+    image: nexusImg, 
     liveLink: 'https://nexus-command-erjn.onrender.com',
     repoLink: 'https://github.com/AK-projects88/nexus-mesh-network'
   },
   { 
     id: 'p2', 
-    title: 'Gig Economy Logistics', 
+    title: 'LOGISTICS_ENGINE // V.04-26', 
     desc: 'Micro-economic systems analysis.', 
-    detail: 'Mapped high-density delivery routes and analyzed...'
+    detail: 'Mapped high-density delivery routes and analyzed fleet telemetry arrays.',
+    image: gigImg 
   },
   { 
     id: 'p3', 
-    title: 'Volunteer Yatra', 
+    title: 'YATRA_EXCHANGE // V.11-25', 
     desc: 'Cross-cultural field studies portal.', 
-    detail: 'Designed and developed a full-stack portal connecting...'
+    detail: 'Designed and developed a full-stack portal connecting field researchers with optimal deployment regions.',
+    image: yatraImg 
   }
 ];
   const cursorX = useMotionValue(-100);
@@ -452,6 +459,37 @@ const App = () => {
 
   // --- THE X10THINK 3D TOPOGRAPHIC WAVE ENGINE ---
   const canvasRef = useRef(null);
+  // --- PHASE 1: LENIS INERTIAL SCROLL ENGINE ---
+  const lenisRef = useRef(null);
+
+  useEffect(() => {
+    // 1. Initialize the physical scroll properties
+    const lenis = new Lenis({
+      duration: 1.5, // How heavy and long the slide lasts
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Premium exponential deceleration
+      direction: 'vertical',
+      gestureDirection: 'vertical',
+      smooth: true,
+      mouseMultiplier: 1, // Calibrated for standard mouse wheels
+      smoothTouch: false, // Keeps native touch behavior on phones for better UX
+      touchMultiplier: 2,
+    });
+
+    lenisRef.current = lenis;
+
+    // 2. The 60FPS Render Loop
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    // 3. Cleanup to prevent memory leaks
+    return () => {
+      lenis.destroy();
+    };
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -535,20 +573,21 @@ const App = () => {
 }, [isCanvasMounted]); // <-- We tell it to fire ONLY when the canvas actually exists
   
 
+  
   const scrollToSection = (sectionId) => {
-    const section = document.getElementById(sectionId);
-    if (section) { section.scrollIntoView({ behavior: 'smooth' }); }
+    if (lenisRef.current) {
+      // Hijacks the click and uses Lenis physics to glide to the section
+      lenisRef.current.scrollTo(`#${sectionId}`, {
+        offset: -100, // Accounts for your floating nav bar
+        duration: 2,  // A slow, cinematic glide
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+      });
+    } else {
+      // Fallback just in case the engine hasn't mounted
+      const section = document.getElementById(sectionId);
+      if (section) { section.scrollIntoView({ behavior: 'smooth' }); }
+    }
   };
-
-  if (isLoading) {
-    return (
-      <div className="preloader">
-        <motion.div className="preloader-text" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1, repeat: Infinity, repeatType: "reverse" }}>
-          Compiling Portfolio...
-        </motion.div>
-      </div>
-    );
-  }
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }}>
@@ -634,11 +673,11 @@ const App = () => {
                 onMouseEnter={() => setCursorType('click')} 
                 onMouseLeave={() => setCursorType('default')}
               >
-                <span className="crystal-text">INITIATE_PROJECT</span>
+                <span className="crystal-text">EXECUTE</span>
               </OriginkitMagneticButton>
               
               <button className="escape-hatch-link" onClick={() => scrollToSection('work')}>
-                // DEPLOY ARCHITECTURE (VIEW WORK)
+                VIEW_ARCHIVE
               </button>
             </div>
             {/* -------------------------------------- */}
@@ -694,10 +733,22 @@ const App = () => {
                       onClick={() => setSelectedProject(project)} 
                       setCursorType={setCursorType}
                     >
-                      <motion.h3 layoutId={`title-${project.id}`}>{project.title}</motion.h3>
-                      <motion.p layoutId={`desc-${project.id}`} style={{color: '#a0a0a5'}}>
-  {project.desc}
-</motion.p>
+                      {/* 1. The Holographic Image Stage */}
+                      <div className="project-image-container">
+                        <img 
+                          src={project.image} 
+                          alt={project.title} 
+                          className="project-image-3d" 
+                        />
+                      </div>
+                      
+                      {/* 2. The Floating Text Zone */}
+                      <div className="project-text-zone">
+                        <motion.h3 layoutId={`title-${project.id}`}>{project.title}</motion.h3>
+                        <motion.p layoutId={`desc-${project.id}`} style={{color: '#a0a0a5'}}>
+                          {project.desc}
+                        </motion.p>
+                      </div>
                     </MagneticBox>
                   </motion.div>
                 </SwiperSlide>
@@ -720,8 +771,9 @@ const App = () => {
               <h2>01 <br/> <span className="outline-text">THE</span><br/> PHILOSOPHY</h2>
             </div>
             <div className="about-text">
-              <p>I don't just write code. I engineer digital physics.</p>
-              <p>Specializing in bridging the gap between heavy mathematical models and hyper-fluid user interfaces. I build systems that don't just work—they feel alive. If an architecture isn't beautiful on a microscopic level, it isn't finished.</p>
+              <p>I turn mathematical models into interfaces you can actually feel — built with React, Three.js, and motion physics.</p>
+              <p>I'm a frontend developer who builds interactive, motion-heavy interfaces using React, Three.js, and Framer Motion. I care about the small stuff — 60fps animations, clean component structure, load times that don't make you wait.
+// If it's not fast and it's not clean, it's not done..</p>
             </div>
           </div>
         </motion.section>
