@@ -97,6 +97,15 @@ const MagneticBox = ({ children, layoutId, onClick, setCursorType }) => {
     <motion.div
       layoutId={layoutId}
       onClick={onClick}
+      /* THE A11Y FIX: Keyboard accessibility for Bento Boxes */
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onClick();
+        }
+      }}
       className="bento-box magnetic-box"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
@@ -190,6 +199,16 @@ const IDCardEngine = ({ setCursorType }) => {
         onMouseEnter={() => setCursorType('drag')}
         onMouseLeave={() => setCursorType('default')}
         onClick={() => setIsFlipped(!isFlipped)} 
+        /* THE A11Y FIX: Keyboard accessibility for the ID Card */
+        role="button"
+        tabIndex={0}
+        aria-label="Flip ID Card"
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            setIsFlipped(!isFlipped);
+          }
+        }}
       >
         <div className="lanyard-thread"></div>
 
@@ -453,9 +472,10 @@ const App = () => {
 
       <motion.div className="scroll-progress-bar" style={{ scaleX: scrollYProgress }} />
 
-      <div className="noise-overlay"></div>
+      {/* THE A11Y FIX: Hide visual elements from screen readers */}
+      <div className="noise-overlay" aria-hidden="true"></div>
       
-      <motion.div className="custom-cursor" style={{ x: springX, y: springY }} variants={cursorVariants} animate={cursorType} transition={{ type: "spring", stiffness: 300, damping: 20 }}>
+      <motion.div className="custom-cursor" aria-hidden="true" style={{ x: springX, y: springY }} variants={cursorVariants} animate={cursorType} transition={{ type: "spring", stiffness: 300, damping: 20 }}>
         {cursorType === 'click' ? 'CLICK' : cursorType === 'drag' ? 'DRAG' : ''}
       </motion.div>
 
@@ -467,12 +487,13 @@ const App = () => {
         <motion.div
           key={idx}
           className="custom-cursor-trail"
+          aria-hidden="true"
           style={{ x: trail.x, y: trail.y, scale: trail.scale, opacity: trail.opacity, willChange: "transform" }}
         />
       ))}
 
-      {isCanvasMounted && <canvas ref={canvasRef} className="kinetic-canvas"></canvas>}
-      <div className="contrast-overlay"></div>
+      {isCanvasMounted && <canvas ref={canvasRef} className="kinetic-canvas" aria-hidden="true"></canvas>}
+      <div className="contrast-overlay" aria-hidden="true"></div>
 
 
       {/* THE FIX: Nav Bar moved OUTSIDE the app-wrapper so it stays permanently fixed */}
@@ -638,22 +659,23 @@ const App = () => {
             </MagneticButton>
           </div>
 
+          {/* THE A11Y FIX: Social Links Keyboard & Screen Reader accessibility */}
           <div className="side-panel right-panel">
-            <a href="https://github.com/AK-projects88" target="_blank" rel="noreferrer" className="data-node link-node">
+            <a href="https://github.com/AK-projects88" target="_blank" rel="noreferrer" className="data-node link-node" aria-label="Visit my GitHub Profile">
               <div className="link-content">
-                <img src="/github.png" alt="GitHub" className="icon-3d" />
+                <img src="/github.png" alt="" className="icon-3d" aria-hidden="true" />
                 <span>// GITHUB</span>
               </div>
             </a>
-            <a href="https://www.linkedin.com/in/ansh-jha-017683422/" target="_blank" rel="noreferrer" className="data-node link-node">
+            <a href="https://www.linkedin.com/in/ansh-jha-017683422/" target="_blank" rel="noreferrer" className="data-node link-node" aria-label="Visit my LinkedIn Profile">
               <div className="link-content">
-                <img src="/linkedin.png" alt="LinkedIn" className="icon-3d" />
+                <img src="/linkedin.png" alt="" className="icon-3d" aria-hidden="true" />
                 <span>// LINKEDIN</span>
               </div>
             </a>
-            <a href="https://x.com/AnshJha438115" target="_blank" rel="noreferrer" className="data-node link-node">
+            <a href="https://x.com/AnshJha438115" target="_blank" rel="noreferrer" className="data-node link-node" aria-label="Visit my X Profile">
               <div className="link-content">
-                <img src="/x.png" alt="X" className="icon-3d" />
+                <img src="/x.png" alt="" className="icon-3d" aria-hidden="true" />
                 <span>// TWITTER_X</span>
               </div>
             </a>
