@@ -716,128 +716,44 @@ section, .hero-section, .portfolio-section, .about-section, .contact-command-cen
    THE TRUE MOBILE ARCHITECTURE OVERRIDE
    (DESIGNMETER 100/100 CONVERSION MATH)
    ========================================= */
+/* =========================================
+   THE MOBILE CONVERSION OVERRIDE 
+   (Restores 65+ UX Score & Mobile Readability)
+   ========================================= */
 @media (max-width: 768px) {
-  /* 1. VIEWPORT OVERFLOW LOCK */
-  html, body, .app-wrapper {
-    overflow-x: hidden !important;
-    width: 100vw !important;
-    max-width: 100% !important;
-  }
-
-  .nav-bar { 
-    justify-content: center !important; 
-    padding: 0 20px !important; 
-    width: calc(100% - 40px) !important;
-  }
+  html, body, .app-wrapper { overflow-x: hidden !important; width: 100vw !important; max-width: 100% !important; }
+  .nav-bar { justify-content: center !important; padding: 0 20px !important; width: calc(100% - 40px) !important; }
   .nav-links { display: none !important; }
 
-  /* 2. THE HERO SPACING & ORDER FIX (24px top / 40px bottom) */
-  .hero-section {
-    display: flex !important;
-    flex-direction: column !important;
-    padding: 24px 20px 40px 20px !important; 
-    gap: 24px !important; 
-  }
+  /* Section Spacing Constraints */
+  .hero-section { display: flex !important; flex-direction: column !important; padding: 24px 20px 40px 20px !important; gap: 24px !important; }
+  .portfolio-section, .about-section, .contact-command-center { padding: 56px 20px !important; }
 
-  /* TEXT AND CTA FIRST (order: 1) */
-  .hero-section > div:first-child {
-    order: 1 !important; 
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: flex-start !important; 
-    width: 100% !important;
-    margin-top: 100px !important; /* Clears the Nav bar */
-  }
-
-  /* PORTRAIT CARD LAST (order: 2) */
-  .id-card-wrapper {
-    order: 2 !important; 
-    margin: 20px auto 0 auto !important;
-    width: 100% !important;
-  }
-
-  /* 3. PORTRAIT CARD HEIGHT REDUCTION (160-180px strict constraint) */
-  /* Scale(0.4) perfectly transforms the 440px card down to 176px tall */
-  .id-card-physics-body {
-    transform: scale(0.4) !important;
-    transform-origin: top center !important;
-  }
-
-  /* 4. STRICT MOBILE HEADLINE SIZES */
-  .hero-title {
-    font-size: 40px !important; /* Audit Requirement: 40px */
-    line-height: 1 !important;
-    text-align: left !important;
-  }
-
-  .hero-subtext {
-    font-size: 0.95rem !important;
-    text-align: left !important;
-    margin: 16px 0 24px 0 !important;
-    max-width: 100% !important;
-  }
-
-  .cta-command-center {
-    align-items: flex-start !important;
-    margin-top: 0 !important;
-  }
-
-  /* 5. MAJOR SECTION GAPS (56px) */
-  .portfolio-section, .about-section, .contact-command-center {
-    padding: 56px 20px !important; 
-  }
-
-  .about-header h2 {
-    font-size: 56px !important; /* Audit Requirement: Section Number 56px */
-    text-align: left !important;
-  }
-
-  .contact-title {
-    font-size: 28px !important; /* Audit Requirement: Section Title 24-28px */
-    text-align: center !important;
-  }
-
-  /* 6. PROJECT CARD WIDTH (327-343px) */
-  .master-slide {
-    width: 335px !important; 
-    height: 420px !important; 
-  }
-
-  /* 7. LAYOUT STACKING CLEANUP */
-  .about-grid, .contact-command-center { 
-    display: flex !important; 
-    flex-direction: column !important; 
-    gap: 24px !important; 
-  }
+  /* Mobile Order: Text First, ID Card Second */
+  .hero-section > div:first-child { order: 1 !important; display: flex !important; flex-direction: column !important; align-items: flex-start !important; width: 100% !important; margin-top: 80px !important; }
   
-  .contact-center, .side-panel { 
-    width: 100% !important; 
-    align-items: center !important; 
-  }
-  
-  .contact-center { 
-    order: -1 !important; 
-  }
-  
-  .tab-container { 
-    display: flex !important; 
-    flex-direction: column !important; 
-    width: 100% !important; 
-    gap: 12px !important; 
-  }
-  
-  .btn { 
-    width: 100% !important; 
-  }
+  /* Shrinks the card to fit mobile without breaking the drag physics */
+  .id-card-3d-perspective { order: 2 !important; margin: 20px auto 0 auto !important; transform: scale(0.65) !important; transform-origin: top center !important; }
 
-  /* 8. DISABLE NATIVE TOUCH INTERFERENCE */
-  .custom-cursor, .custom-cursor-trail { 
-    display: none !important; 
-    visibility: hidden !important; 
-  }
-  * { 
-    cursor: auto !important; 
-  }
+  /* Typography Minimums */
+  .hero-title { font-size: 40px !important; line-height: 1 !important; text-align: left !important; gap: 5px !important; }
+  .hero-subtext { font-size: 1rem !important; text-align: left !important; margin: 16px 0 24px 0 !important; max-width: 100% !important; }
+  .about-header h2 { font-size: 56px !important; text-align: left !important; }
+  .contact-title { font-size: 28px !important; text-align: center !important; }
+
+  /* Layout Stacking */
+  .master-slide { width: 335px !important; height: 420px !important; }
+  .about-grid, .contact-command-center { display: flex !important; flex-direction: column !important; gap: 24px !important; }
+  .contact-center, .side-panel { width: 100% !important; align-items: center !important; }
+  .contact-center { order: -1 !important; }
+  .tab-container { display: flex !important; flex-direction: column !important; width: 100% !important; gap: 12px !important; }
+  
+  /* Make buttons fill the screen on mobile */
+  .btn, .cta-command-center > div { width: 100% !important; justify-content: center !important; }
+  
+  /* Hide custom cursors on touch screens */
+  .custom-cursor, .custom-cursor-trail { display: none !important; visibility: hidden !important; }
+  * { cursor: auto !important; }
 }
 
 /* =========================================
