@@ -1,10 +1,5 @@
 ﻿@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&family=Syne:wght@700;800;900&family=Space+Grotesk:wght@400;700;900&display=swap');
-/* =========================================
-   CUSTOM TYPOGRAPHY ENGINE (AZO SUPER)
-   ========================================= */
-/* =========================================
-   CUSTOM TYPOGRAPHY ENGINE (AZO SUPER)
-   ========================================= */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700;800&display=swap');
 @font-face {
   font-family: 'Azo Super';
   src: url('./fonts/AzoSuperTest.otf') format('opentype');
@@ -29,12 +24,11 @@
 
   /* TYPOGRAPHY TOKENS */
  /* TYPOGRAPHY TOKENS */
+  /* TYPOGRAPHY TOKENS */
+  /* TYPOGRAPHY TOKENS */
   --font-display: 'Azo Super', sans-serif; 
-  
-  /* THE FIX: Ripped out Plus Jakarta, replaced with a raw technical typewriter font */
-  --font-body: 'Courier New', Courier, monospace; 
-  
-  --font-mono: 'Space Grotesk', monospace;
+  --font-body: 'Inter', sans-serif;              /* Neutral, high-legibility UI font */
+  --font-mono: 'JetBrains Mono', monospace;
   /* FLUID TYPE SCALE */
   --step--1: clamp(0.8rem, 0.77rem + 0.15vw, 0.9rem);
   --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
@@ -252,52 +246,51 @@ section, .hero-section, .portfolio-section, .about-section, .contact-command-cen
 }
 
 .hero-title {
-  /* THE FIX: Massively increased the minimum, fluid, and maximum bounds */
-  font-size: clamp(5rem, 8.5vw, 9.5rem); 
+  /* Scaled down slightly to fit standard laptops */
+  font-size: clamp(3.5rem, 6.5vw, 7.5rem); 
   
   font-weight: 900;
-  line-height: 0.9; 
+  line-height: 1; 
   text-transform: uppercase;
-  
-  /* Pulls the massive Azo Super letters slightly closer together */
-  letter-spacing: -0.02em; 
+  letter-spacing: 0; 
   
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   
-  /* AZO SUPER OPENTYPE OVERRIDE */
+  /* THE OVERLAP FIX: Forces a physical gap between the words */
+  gap: 15px; 
+  
   font-variant-alternates: contextual; 
   font-feature-settings: "calt" 1, "kern" 1; 
 }
 
-.solid-text {
-  color: var(--text-primary);
-  text-shadow: 0 0 30px rgba(184, 247, 228, 0.15);
-}
-
+/* Base state: Clean, thick white outline, hollow inside */
 .outline-text {
-  color: transparent;
-  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.4); 
+  color: #ffffff; 
+  -webkit-text-fill-color: transparent; 
+  -webkit-text-stroke: 3px rgba(255, 255, 255, 0.85); 
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-block; 
 }
 
+/* Hover state: Restored to the clean, original single-layer glow */
 .outline-text:hover {
   color: var(--accent); 
-  -webkit-text-stroke: 1.5px var(--accent);
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 3px var(--accent);
+  
+  /* THE FIX: Just one subtle, smooth cyan shadow like before */
   text-shadow: 0 0 60px rgba(184, 247, 228, 0.5); 
 }
-
 .hero-subtext {
-  color: var(--text-secondary); 
-  max-width: 520px; /* Expanded slightly to give the wider monospace letters room */
-  margin-top: 30px;
-  
-  /* THE MONOSPACE TUNING */
-  font-size: 0.95rem; /* Monospace inherently looks larger, so we scale it down */
-  line-height: 1.7; /* Extra breathing room between lines */
-  font-weight: 400; /* Typewriter fonts look best in standard weights */
-  letter-spacing: 0.05em; /* Adds that technical, terminal-like spacing */
+  color: #d1d1d6; 
+  max-width: 500px;
+  margin-top: 24px;
+  font-size: 1.15rem; 
+  line-height: 1.6;
+  font-weight: 500; 
+  letter-spacing: -0.01em; 
 }
 
 /* CTA Command Center */
