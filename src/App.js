@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, useMotionValue, useTransform, useSpring, AnimatePresence, useMotionTemplate } from 'framer-motion';
+import { motion, useMotionValue, useTransform, useSpring, AnimatePresence, useMotionTemplate, useReducedMotion, useScroll } from 'framer-motion';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { EffectCoverflow, Mousewheel } from 'swiper/modules';
+import { EffectCoverflow, Mousewheel, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
+import 'swiper/css/pagination';
 import Lenis from '@studio-freight/lenis';
 import idFront from './my-id-front.png';
 import idBack from './my-id-back.png';
@@ -135,7 +136,7 @@ const MagneticButton = ({ children, className, onClick, onMouseEnter, onMouseLea
     const rect = e.currentTarget.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
-    const pullX = (e.clientX - centerX) * 0.35; // Pull strength
+    const pullX = (e.clientX - centerX) * 0.35; 
     const pullY = (e.clientY - centerY) * 0.35;
     x.set(pullX);
     y.set(pullY);
@@ -163,118 +164,19 @@ const MagneticButton = ({ children, className, onClick, onMouseEnter, onMouseLea
   );
 };
 
-// --- THE X10THINK IGNITION REACTOR (SECURITY BYPASS OVERRIDE) ---
-const IgnitionButton = ({ setCursorType }) => {
-  const [progress, setProgress] = useState(0);
-  const progressRef = useRef(0);
-  const animationRef = useRef(null);
-
-  const startIgnition = () => {
-    setCursorType('ignite'); 
-    const fill = () => {
-      progressRef.current += 1.2; 
-      if (progressRef.current >= 100) {
-        progressRef.current = 100;
-        setProgress(100);
-        return;
-      }
-      setProgress(progressRef.current);
-      animationRef.current = requestAnimationFrame(fill);
-    };
-    animationRef.current = requestAnimationFrame(fill);
-  };
-
-  const stopIgnition = () => {
-    setCursorType('default');
-    cancelAnimationFrame(animationRef.current);
-    
-    // THE TRUSTED-EVENT BYPASS: Triggers ONLY when the user holds the ignition
-    if (progressRef.current >= 100) {
-      window.open("https://mail.google.com/mail/?view=cm&fs=1&to=anshfyp88@gmail.com");
-      navigator.clipboard.writeText("anshfyp88@gmail.com");
-      progressRef.current = 0;
-      setProgress(0);
-      return;
-    }
-    
-    const drain = () => {
-      progressRef.current -= 4; 
-      if (progressRef.current <= 0) {
-        progressRef.current = 0;
-        setProgress(0);
-        return;
-      }
-      setProgress(progressRef.current);
-      animationRef.current = requestAnimationFrame(drain);
-    };
-    animationRef.current = requestAnimationFrame(drain);
-  };
-
-  return (
-    <div 
-      className="ignition-btn"
-      onMouseDown={startIgnition}
-      onMouseUp={stopIgnition}
-      onMouseLeave={stopIgnition}
-      onTouchStart={startIgnition} 
-      onTouchEnd={stopIgnition}
-    >
-      <div className="ignition-fill" style={{ width: `${progress}%` }}></div>
-      <span className="ignition-text">
-        {progress >= 100 ? 'RELEASE TO INITIATE' : progress > 0 ? `UPLOADING... ${Math.floor(progress)}%` : 'MAILTO://ANSH.JHA@SYSTEM.NET'}
-      </span>
-    </div>
-  );
-};
-// --- ORIGINKIT MAGNETIC WRAPPER ---
-const OriginkitMagneticButton = ({ children, className, onMouseEnter, onMouseLeave }) => {
-  const ref = useRef(null);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-
-  const handleMouse = (e) => {
-    const { clientX, clientY } = e;
-    const { height, width, left, top } = ref.current.getBoundingClientRect();
-    const middleX = clientX - (left + width / 2);
-    const middleY = clientY - (top + height / 2);
-    setPosition({ x: middleX * 0.15, y: middleY * 0.15 });
-  };
-
-  const reset = () => {
-    setPosition({ x: 0, y: 0 });
-  };
-
-  return (
-    <motion.button
-      ref={ref}
-      onMouseMove={handleMouse}
-      onMouseLeave={() => { reset(); if (onMouseLeave) onMouseLeave(); }}
-      onMouseEnter={onMouseEnter}
-      animate={{ x: position.x, y: position.y }}
-      transition={{ type: "spring", stiffness: 400, damping: 15, mass: 0.1 }}
-      className={`originkit-btn ${className || ''}`}
-    >
-      {children}
-    </motion.button>
-  );
-};
 // --- THE X10THINK 3D DUAL-SIDED CARD ENGINE ---
 const IDCardEngine = ({ setCursorType }) => {
   const [isFlipped, setIsFlipped] = useState(false);
   
-  // 1. Core Mass Trackers
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   
-  // 2. Pendulum Swing Physics
   const rotateX = useSpring(useTransform(y, [-200, 200], [15, -15]), { stiffness: 200, damping: 20, mass: 1.5 });
   const rotateYDrag = useSpring(useTransform(x, [-200, 200], [-15, 15]), { stiffness: 200, damping: 20, mass: 1.5 });
 
-  // 3. THE LIGHT ENGINE (Upgraded to a sharp, overhead specular highlight)
-  // Extending the mapping to [150, -50] allows the light to travel completely off the edges of the card
   const lightX = useSpring(useTransform(x, [-200, 200], [150, -50]), { stiffness: 150, damping: 20 });
   const lightY = useSpring(useTransform(y, [-200, 200], [150, -50]), { stiffness: 150, damping: 20 });
   
-  // Tightened the radius from 60% down to 25% to create a sharp reflection, not a global fog
   const glareBackground = useMotionTemplate`radial-gradient(circle at ${lightX}% ${lightY}%, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 25%)`;
 
   return (
@@ -291,7 +193,6 @@ const IDCardEngine = ({ setCursorType }) => {
       >
         <div className="lanyard-thread"></div>
 
-        {/* Upgraded Hardware Clip */}
         <div className="hardware-clip">
           <div className="hardware-hole"></div>
         </div>
@@ -306,7 +207,6 @@ const IDCardEngine = ({ setCursorType }) => {
           {/* FRONT */}
           <div className="id-card-face id-card-front">
             <img src={idFront} alt="ID Front" />
-            {/* The Dynamic Ray-Traced Light */}
             <motion.div className="glare-overlay" style={{ background: glareBackground }} />
           </div>
           
@@ -320,60 +220,57 @@ const IDCardEngine = ({ setCursorType }) => {
     </div>
   );
 };
+
 // --- MAIN APP COMPONENT ---
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [bootText, setBootText] = useState('COMPILING...');
   const [activeTab, setActiveTab] = useState('Projects');
   const [cursorType, setCursorType] = useState('default');
   const [viewMode, setViewMode] = useState('desktop'); 
   const [selectedProject, setSelectedProject] = useState(null);
-// --- PHASE 1 FIX: LAZY LOAD STATE ---
   const [isCanvasMounted, setIsCanvasMounted] = useState(false);
- const projectsData = [
-  { 
-    id: 'p1', 
-    title: 'NEXUS_TACTICAL_COMMAND // V.1.0', 
-    desc: 'Real-time offline-first mesh network simulator for Society 5.0 disaster infrastructure.', 
-    detail: 'Engineered a Full-Stack geospatial command center utilizing a Node.js/Express backend. Implemented Socket.io for bidirectional WebSocket telemetry with zero-latency updates. The frontend utilizes Leaflet.js and CartoDB dark matter tiles.',
-    image: nexusImg, 
-    liveLink: 'https://nexus-command-erjn.onrender.com',
-    repoLink: 'https://github.com/AK-projects88/nexus-mesh-network'
-  },
-  { 
-    id: 'p2', 
-    title: 'LOGISTICS_ENGINE // V.04-26', 
-    desc: 'Micro-economic systems analysis.', 
-    detail: 'Mapped high-density delivery routes and analyzed fleet telemetry arrays.',
-    image: gigImg 
-  },
-  { 
-    id: 'p3', 
-    title: 'YATRA_EXCHANGE // V.11-25', 
-    desc: 'Cross-cultural field studies portal.', 
-    detail: 'Designed and developed a full-stack portal connecting field researchers with optimal deployment regions.',
-    image: yatraImg 
-  }
-];
+  
+  const shouldReduceMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll();
+
+  const projectsData = [
+    { 
+      id: 'p1', 
+      title: 'NEXUS_TACTICAL_COMMAND // V.1.0', 
+      desc: 'Real-time offline-first mesh network simulator for Society 5.0 disaster infrastructure.', 
+      detail: 'Engineered a Full-Stack geospatial command center utilizing a Node.js/Express backend. Implemented Socket.io for bidirectional WebSocket telemetry with zero-latency updates. The frontend utilizes Leaflet.js and CartoDB dark matter tiles.',
+      image: nexusImg, 
+      liveLink: 'https://nexus-command-erjn.onrender.com',
+      repoLink: 'https://github.com/AK-projects88/nexus-mesh-network'
+    },
+    { 
+      id: 'p2', 
+      title: 'SWARM_DISPATCH_ENGINE // V.04-26', 
+      desc: 'Micro-economic systems analysis.', 
+      detail: 'Mapped high-density delivery routes and analyzed fleet telemetry arrays. Captured real-world node verification sequences from March 2026 through active fleet saturation in April 2026.',
+      image: gigImg 
+    },
+    { 
+      id: 'p3', 
+      title: 'YATRA_EXCHANGE // V.11-25', 
+      desc: 'Cross-cultural field studies portal.', 
+      detail: 'Designed and developed a full-stack portal connecting field researchers with optimal deployment regions. System handled initial volunteer exchange program routing launched on November 16, 2025.',
+      image: yatraImg 
+    }
+  ];
+
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
   const springX = useSpring(cursorX, { stiffness: 500, damping: 28 });
   const springY = useSpring(cursorY, { stiffness: 500, damping: 28 });
 
-  // Physics-chained custom trails (fading geometric aura trail)
   const t1X = useSpring(cursorX, { stiffness: 350, damping: 24 });
   const t1Y = useSpring(cursorY, { stiffness: 350, damping: 24 });
-
   const t2X = useSpring(t1X, { stiffness: 220, damping: 20 });
   const t2Y = useSpring(t1Y, { stiffness: 220, damping: 20 });
-
   const t3X = useSpring(t2X, { stiffness: 140, damping: 16 });
   const t3Y = useSpring(t2Y, { stiffness: 140, damping: 16 });
-
-  const t4X = useSpring(t3X, { stiffness: 90, damping: 13 });
-  const t4Y = useSpring(t3Y, { stiffness: 90, damping: 13 });
-
-  const t5X = useSpring(t4X, { stiffness: 55, damping: 10 });
-  const t5Y = useSpring(t4Y, { stiffness: 55, damping: 10 });
 
   useEffect(() => {
     const moveCursor = (e) => {
@@ -382,113 +279,82 @@ const App = () => {
     };
     window.addEventListener('mousemove', moveCursor);
     return () => window.removeEventListener('mousemove', moveCursor);
-  }, []);
-
-  
+  }, [cursorX, cursorY]);
 
   const cursorVariants = {
     default: { width: 20, height: 20, backgroundColor: "#ffffff", border: "0px solid #ffffff", mixBlendMode: "difference", color: "transparent" },
     click: { width: 65, height: 65, backgroundColor: "#ffffff", border: "0px solid #ffffff", mixBlendMode: "normal", color: "#000000" },
-    drag: { width: 80, height: 80, backgroundColor: "rgba(255, 255, 255, 0.05)", border: "1px solid rgba(255, 255, 255, 0.5)", backdropFilter: "blur(4px)", mixBlendMode: "normal", color: "#ffffff" },
-    ignite: { width: 100, height: 100, backgroundColor: "#e50914", border: "0px solid #ffffff", mixBlendMode: "normal", color: "#ffffff" }
+    drag: { width: 80, height: 80, backgroundColor: "rgba(255, 255, 255, 0.05)", border: "1px solid rgba(255, 255, 255, 0.5)", backdropFilter: "blur(4px)", mixBlendMode: "normal", color: "#ffffff" }
   };
 
-  // --- STAGGERED MATRIX REVEAL VARIANTS ---
   const containerVariants = {
     hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.12,
-        delayChildren: 0.05
-      }
-    }
+    visible: { opacity: 1, transition: { staggerChildren: 0.12, delayChildren: 0.05 } }
   };
 
   const itemVariants = {
     hidden: { 
       opacity: 0, 
-      y: 35, 
+      y: shouldReduceMotion ? 0 : 35, 
       filter: "blur(12px)",
-      scale: 0.95
+      scale: shouldReduceMotion ? 1 : 0.95 
     },
     visible: { 
       opacity: 1, 
       y: 0, 
       filter: "blur(0px)",
       scale: 1,
-      transition: {
-        type: "spring",
-        stiffness: 90,
-        damping: 14
-      }
+      transition: { type: "spring", stiffness: 90, damping: 14, duration: shouldReduceMotion ? 0.1 : undefined }
     }
   };
 
   const loadStaggerContainer = {
     hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.3
-      }
-    }
+    visible: { opacity: 1, transition: { staggerChildren: 0.15, delayChildren: 0.3 } }
   };
 
   const loadStaggerItem = {
     hidden: { opacity: 0, y: 50, filter: "blur(15px)" },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
-      filter: "blur(0px)",
-      transition: { type: "spring", stiffness: 70, damping: 15 }
-    }
+    visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { type: "spring", stiffness: 70, damping: 15 } }
   };
 
- useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false); // 1. Reveal the UI instantly
-      
-      // 2. Wait 500ms for React to settle, THEN mount the heavy 3D Canvas
-      setTimeout(() => setIsCanvasMounted(true), 500); 
-    }, 2500);
+  useEffect(() => {
+    // 1. Text swaps to ACCESS GRANTED after just 0.8 seconds
+    const textTimer = setTimeout(() => setBootText('ACCESS GRANTED'), 800);
     
-    return () => clearTimeout(timer);
+    // 2. Preloader completely disappears at 1.5 seconds
+    const timer = setTimeout(() => {
+      setIsLoading(false); 
+      // Mount the heavy 3D canvas right after the veil lifts
+      setTimeout(() => setIsCanvasMounted(true), 300); 
+    }, 1500);
+    
+    return () => { clearTimeout(timer); clearTimeout(textTimer); };
   }, []);
 
-  // --- THE X10THINK 3D TOPOGRAPHIC WAVE ENGINE ---
   const canvasRef = useRef(null);
-  // --- PHASE 1: LENIS INERTIAL SCROLL ENGINE ---
   const lenisRef = useRef(null);
 
   useEffect(() => {
-    // 1. Initialize the physical scroll properties
     const lenis = new Lenis({
-      duration: 1.5, // How heavy and long the slide lasts
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Premium exponential deceleration
+      duration: 1.5, 
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
       direction: 'vertical',
       gestureDirection: 'vertical',
       smooth: true,
-      mouseMultiplier: 1, // Calibrated for standard mouse wheels
-      smoothTouch: false, // Keeps native touch behavior on phones for better UX
+      mouseMultiplier: 1, 
+      smoothTouch: false, 
       touchMultiplier: 2,
     });
 
     lenisRef.current = lenis;
 
-    // 2. The 60FPS Render Loop
     function raf(time) {
       lenis.raf(time);
       requestAnimationFrame(raf);
     }
-
     requestAnimationFrame(raf);
-
-    // 3. Cleanup to prevent memory leaks
-    return () => {
-      lenis.destroy();
-    };
+    return () => { lenis.destroy(); };
   }, []);
 
   useEffect(() => {
@@ -505,7 +371,6 @@ const App = () => {
     resize();
     window.addEventListener('resize', resize);
 
-    // Mouse Parallax for 3D Camera Pan
     let mouse = { x: 0, y: 0, targetX: 0, targetY: 0 };
     const handleMouseMove = (e) => {
       mouse.targetX = (e.clientX - canvas.width / 2) * 0.05;
@@ -516,28 +381,20 @@ const App = () => {
     let time = 0;
 
     const render = () => {
-      time += 0.02; // Speed of the 3D wave
-      
-      // Clear canvas with transparent Graphite to create a hyper-smooth feel
+      time += 0.02; 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // Smooth camera drag
       mouse.x += (mouse.targetX - mouse.x) * 0.05;
       mouse.y += (mouse.targetY - mouse.y) * 0.05;
 
-      const fov = 400; // Field of View (Depth perspective)
-      
-     // 1. HIGH-PERFORMANCE DENSITY OVERRIDE
-      const cols = 25; // Dropped from 35
-      const rows = 25; // Dropped from 35
-      const spacing = 75; // Increased from 55 to cover the same screen space
+      const fov = 400; 
+      const cols = 25; 
+      const rows = 25; 
+      const spacing = 75; 
       for (let x = -cols / 2; x < cols / 2; x++) {
         for (let z = -rows / 2; z < rows / 2; z++) {
-          
           let posX = x * spacing;
           let posZ = z * spacing;
           let posY = Math.sin(x * 0.15 + time) * 35 + Math.cos(z * 0.15 + time) * 35;
-
           let camX = posX + mouse.x * (posZ * 0.01);
           let camY = posY + mouse.y * (posZ * 0.01) + 200; 
           let camZ = posZ + 500; 
@@ -546,16 +403,11 @@ const App = () => {
             let scale = fov / camZ;
             let screenX = camX * scale + canvas.width / 2;
             let screenY = camY * scale + canvas.height / 2;
-
-            // THE 60FPS OPTIMIZATION: No shadowBlur, just raw size and alpha scaling
             let size = Math.max(1.2, scale * 2.5); 
             let alpha = Math.max(0.1, Math.min(1, scale * 3.0)); 
 
-            // Pure Sky Mint color, rendered instantly
             ctx.fillStyle = `rgba(184, 247, 228, ${alpha})`; 
             ctx.fillRect(screenX, screenY, size, size); 
-            
-            // VERY IMPORTANT: Ensure we do NOT have shadow properties here
             ctx.shadowBlur = 0;
           }
         }
@@ -564,26 +416,21 @@ const App = () => {
     };
 
     render();
-
     return () => {
       window.removeEventListener('resize', resize);
       window.removeEventListener('mousemove', handleMouseMove);
       cancelAnimationFrame(animationFrameId);
     };
-}, [isCanvasMounted]); // <-- We tell it to fire ONLY when the canvas actually exists
-  
+  }, [isCanvasMounted]); 
 
-  
   const scrollToSection = (sectionId) => {
     if (lenisRef.current) {
-      // Hijacks the click and uses Lenis physics to glide to the section
       lenisRef.current.scrollTo(`#${sectionId}`, {
-        offset: -100, // Accounts for your floating nav bar
-        duration: 2,  // A slow, cinematic glide
+        offset: -100, 
+        duration: 2,  
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
       });
     } else {
-      // Fallback just in case the engine hasn't mounted
       const section = document.getElementById(sectionId);
       if (section) { section.scrollIntoView({ behavior: 'smooth' }); }
     }
@@ -592,13 +439,26 @@ const App = () => {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }}>
       
+      <AnimatePresence>
+        {isLoading && (
+          <motion.div 
+            className="preloader"
+            exit={{ opacity: 0, filter: "blur(10px)" }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
+          >
+            <div className="preloader-text">{bootText}</div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <motion.div className="scroll-progress-bar" style={{ scaleX: scrollYProgress }} />
+
       <div className="noise-overlay"></div>
       
       <motion.div className="custom-cursor" style={{ x: springX, y: springY }} variants={cursorVariants} animate={cursorType} transition={{ type: "spring", stiffness: 300, damping: 20 }}>
-        {cursorType === 'click' ? 'CLICK' : cursorType === 'drag' ? 'DRAG' : cursorType === 'ignite' ? 'HOLD' : ''}
+        {cursorType === 'click' ? 'CLICK' : cursorType === 'drag' ? 'DRAG' : ''}
       </motion.div>
 
-      {/* Fluid Cursor Trails (Optimized to 3 for performance) */}
       {[
         { x: t1X, y: t1Y, scale: 0.85, opacity: 0.75 },
         { x: t2X, y: t2Y, scale: 0.60, opacity: 0.45 },
@@ -607,27 +467,18 @@ const App = () => {
         <motion.div
           key={idx}
           className="custom-cursor-trail"
-          style={{
-            x: trail.x,
-            y: trail.y,
-            scale: trail.scale,
-            opacity: trail.opacity,
-            willChange: "transform" // Forces GPU on the cursor
-          }}
+          style={{ x: trail.x, y: trail.y, scale: trail.scale, opacity: trail.opacity, willChange: "transform" }}
         />
       ))}
 
-    {/* --- PHASE 1 FIX: LAZY LOADED 3D KINETIC WAVE --- */}
       {isCanvasMounted && <canvas ref={canvasRef} className="kinetic-canvas"></canvas>}
-      
-      {/* --- PHASE 1 FIX: THE CONTRAST OVERLAY --- */}
       <div className="contrast-overlay"></div>
 
       <div className="view-toggle">
         {['desktop', 'tablet', 'mobile'].map((mode) => (
           <MagneticButton
             key={mode}
-            className={`view-btn ${viewMode === mode ? 'active' : ''}`}
+            className={`btn btn-ghost ${viewMode === mode ? 'active' : ''}`}
             onClick={() => setViewMode(mode)}
             onMouseEnter={() => setCursorType('click')}
             onMouseLeave={() => setCursorType('default')}
@@ -637,22 +488,28 @@ const App = () => {
         ))}
       </div>
 
+      {/* THE FIX: Nav Bar moved OUTSIDE the app-wrapper so it stays permanently fixed */}
+      <motion.nav 
+        className="nav-bar" 
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: "easeOut", delay: 0.5 }}
+      >
+        <div className="nav-logo">ANSH.JHA</div>
+        <div className="nav-links">
+          <MagneticButton className="nav-link" onClick={() => scrollToSection('work')} onMouseEnter={() => setCursorType('click')} onMouseLeave={() => setCursorType('default')}>Work</MagneticButton>
+          <MagneticButton className="nav-link" onClick={() => scrollToSection('about')} onMouseEnter={() => setCursorType('click')} onMouseLeave={() => setCursorType('default')}>About</MagneticButton>
+          <MagneticButton className="nav-link" onClick={() => scrollToSection('contact')} onMouseEnter={() => setCursorType('click')} onMouseLeave={() => setCursorType('default')}>Contact</MagneticButton>
+        </div>
+      </motion.nav>
+
       <motion.div 
         className={`app-wrapper ${viewMode}`}
         variants={loadStaggerContainer}
         initial="hidden"
         animate="visible"
       >
-        
-        <motion.nav className="nav-bar" variants={loadStaggerItem}>
-          <div className="nav-logo">ANSH.JHA</div>
-          <div className="nav-links">
-            <MagneticButton className="nav-link" onClick={() => scrollToSection('work')} onMouseEnter={() => setCursorType('click')} onMouseLeave={() => setCursorType('default')}>Work</MagneticButton>
-            <MagneticButton className="nav-link" onClick={() => scrollToSection('about')} onMouseEnter={() => setCursorType('click')} onMouseLeave={() => setCursorType('default')}>About</MagneticButton>
-            <MagneticButton className="nav-link" onClick={() => scrollToSection('contact')} onMouseEnter={() => setCursorType('click')} onMouseLeave={() => setCursorType('default')}>Contact</MagneticButton>
-          </div>
-        </motion.nav>
-<motion.section className="hero-section" variants={loadStaggerItem}>
+        <motion.section className="hero-section" variants={loadStaggerItem}>
           <div>
             <h1 className="hero-title">
               <span className="solid-text">
@@ -663,29 +520,24 @@ const App = () => {
               </span>
             </h1>
             <p className="hero-subtext">
-              I build interactive digital experiences through mathematical
-              modeling, strategy, and high-performance code.
+              I turn mathematical models into interfaces you can actually feel — built with React, Three.js, and motion physics.
             </p>
 
-            {/* --- PHASE 4: THE ORIGINKIT COGNITIVE ANCHOR --- */}
             <div className="cta-command-center">
-              <OriginkitMagneticButton 
+              <MagneticButton 
+                className="btn btn-primary"
+                onClick={() => scrollToSection('work')}
                 onMouseEnter={() => setCursorType('click')} 
                 onMouseLeave={() => setCursorType('default')}
               >
-                <span className="crystal-text">EXECUTE</span>
-              </OriginkitMagneticButton>
-              
+                VIEW_PROJECTS
+              </MagneticButton>
               <button className="escape-hatch-link" onClick={() => scrollToSection('work')}>
-                VIEW_ARCHIVE
+                // ACCESS_ARCHIVE
               </button>
             </div>
-            {/* -------------------------------------- */}
           </div>
-
-          {/* THE NEW X10THINK 3D DUAL-SIDED ENGINE GOES HERE */}
           <IDCardEngine setCursorType={setCursorType} />
-
         </motion.section>
 
         <motion.section id="work" className="portfolio-section" variants={loadStaggerItem}>
@@ -693,7 +545,7 @@ const App = () => {
             {['Projects', 'Certificates', 'Tech Stack'].map((tabName) => (
               <MagneticButton
                 key={tabName}
-                className={`tab-button ${activeTab === tabName ? 'active' : ''}`}
+                className={`btn btn-ghost ${activeTab === tabName ? 'active' : ''}`}
                 onClick={() => setActiveTab(tabName)}
                 onMouseEnter={() => setCursorType('click')}
                 onMouseLeave={() => setCursorType('default')}
@@ -702,7 +554,7 @@ const App = () => {
               </MagneticButton>
             ))}
           </div>
-<motion.div 
+          <motion.div 
             key={activeTab}
             variants={containerVariants}
             initial="hidden"
@@ -714,15 +566,16 @@ const App = () => {
               grabCursor={true}
               centeredSlides={true}
               slidesPerView={'auto'}
-              mousewheel={{ forceToAxis: true }} // Lets you scroll with mouse wheel smoothly
+              mousewheel={{ forceToAxis: true }} 
+              pagination={{ clickable: true, dynamicBullets: true }} 
               coverflowEffect={{
-                rotate: 35,       // The polygon angle
-                stretch: 0,       // Space between cards
-                depth: 250,       // How far back the side cards get pushed
+                rotate: 35,       
+                stretch: 0,       
+                depth: 250,       
                 modifier: 1,
-                slideShadows: false, // We use our own CSS shadows
+                slideShadows: false, 
               }}
-              modules={[EffectCoverflow, Mousewheel]}
+              modules={[EffectCoverflow, Mousewheel, Pagination]}
               className="masterpiece-swiper"
             >
               {activeTab === 'Projects' && projectsData.map((project) => (
@@ -733,35 +586,24 @@ const App = () => {
                       onClick={() => setSelectedProject(project)} 
                       setCursorType={setCursorType}
                     >
-                      {/* 1. The Holographic Image Stage */}
                       <div className="project-image-container">
-                        <img 
-                          src={project.image} 
-                          alt={project.title} 
-                          className="project-image-3d" 
-                        />
+                        <img src={project.image} alt={project.title} className="project-image-3d" />
                       </div>
-                      
-                      {/* 2. The Floating Text Zone */}
                       <div className="project-text-zone">
                         <motion.h3 layoutId={`title-${project.id}`}>{project.title}</motion.h3>
-                        <motion.p layoutId={`desc-${project.id}`} style={{color: '#a0a0a5'}}>
-                          {project.desc}
-                        </motion.p>
+                        <motion.p layoutId={`desc-${project.id}`}>{project.desc}</motion.p>
                       </div>
                     </MagneticBox>
                   </motion.div>
                 </SwiperSlide>
               ))}
-
-             {/* Add similar SwiperSlides for Certificates and Tech Stack if needed */}
             </Swiper>
           </motion.div>
-        </motion.section> {/* <--- ADD THIS EXACT LINE RIGHT HERE */}
+        </motion.section> 
 
         <motion.div className="marquee-container" variants={loadStaggerItem}>
           <div className="marquee-track">
-            <h1>SOFTWARE ENGINEER • MATHEMATICAL STRATEGIST • SYSTEM ARCHITECT • SOFTWARE ENGINEER • MATHEMATICAL STRATEGIST • SYSTEM ARCHITECT •</h1>
+            <h1>REACT • THREE.JS • FRAMER MOTION • TYPESCRIPT • NODE.JS • REACT • THREE.JS • FRAMER MOTION • TYPESCRIPT • NODE.JS •</h1>
           </div>
         </motion.div>
 
@@ -772,70 +614,65 @@ const App = () => {
             </div>
             <div className="about-text">
               <p>I turn mathematical models into interfaces you can actually feel — built with React, Three.js, and motion physics.</p>
-              <p>I'm a frontend developer who builds interactive, motion-heavy interfaces using React, Three.js, and Framer Motion. I care about the small stuff — 60fps animations, clean component structure, load times that don't make you wait.
-// If it's not fast and it's not clean, it's not done..</p>
+              <p>I'm a frontend developer who builds interactive, motion-heavy interfaces using React, Three.js, and Framer Motion. I care about the small stuff — 60fps animations, clean component structure, load times that don't make you wait.<br/><br/>// If it's not fast and it's not clean, it's not done.</p>
             </div>
           </div>
         </motion.section>
 
         <motion.section id="contact" className="contact-command-center" variants={loadStaggerItem}>
-  
-  {/* LEFT FLANK: Telemetry & Status */}
-  <div className="side-panel left-panel">
-    <div className="data-node">
-      <div className="status-indicator">
-        <div className="blinking-dot"></div>
-        <span>SYSTEM ONLINE</span>
-      </div>
-      <p className="sub-text">ACCEPTING NEW PROJECTS</p>
-    </div>
-    
-    <div className="data-node">
-      <span>SERVER NODE</span>
-      <h3 className="glitch-text">INDIA // IST</h3>
-      <p className="sub-text">LOCAL TIME: 12:01 PM</p>
-    </div>
-  </div>
+          <div className="side-panel left-panel">
+            <div className="data-node">
+              <div className="status-indicator">
+                <div className="blinking-dot"></div>
+                <span>SYSTEM ONLINE</span>
+              </div>
+              <p className="sub-text">ACCEPTING NEW PROJECTS</p>
+            </div>
+            <div className="data-node">
+              <span>SERVER NODE</span>
+              <h3 className="glitch-text">INDIA // IST</h3>
+              <p className="sub-text">LOCAL TIME: 12:01 PM</p>
+            </div>
+          </div>
 
-  {/* CENTER: Your Existing Core */}
-  <div className="contact-center">
-    <h2 className="contact-title">
-      INITIATE <br/> 
-      <span className="outline-text">SEQUENCE</span>
-    </h2>
-    <IgnitionButton setCursorType={setCursorType} />
-  </div>
+          <div className="contact-center">
+            <h2 className="contact-title">
+              INITIATE <br/> 
+              <span className="outline-text">SEQUENCE</span>
+            </h2>
+            <a 
+              href="mailto:anshfyp88@gmail.com" 
+              className="btn btn-primary"
+              onMouseEnter={() => setCursorType('click')}
+              onMouseLeave={() => setCursorType('default')}
+              style={{ fontSize: '1.25rem', padding: '24px 48px', marginTop: '20px', textTransform: 'lowercase' }}
+            >
+              anshfyp88@gmail.com
+            </a>
+          </div>
 
- {/* RIGHT FLANK: Network Links with 3D Nodes */}
-  <div className="side-panel right-panel">
-    <a href="https://github.com/AK-projects88" target="_blank" rel="noreferrer" className="data-node link-node">
-      <div className="link-content">
-        <img src="/github.png" alt="GitHub" className="icon-3d" />
-        <span>// GITHUB</span>
-      </div>
-      <div className="node-arrow">↗</div>
-    </a>
-    
-    <a href="https://www.linkedin.com/in/ansh-jha-017683422/" target="_blank" rel="noreferrer" className="data-node link-node">
-      <div className="link-content">
-        <img src="/linkedin.png" alt="LinkedIn" className="icon-3d" />
-        <span>// LINKEDIN</span>
-      </div>
-      <div className="node-arrow">↗</div>
-    </a>
-    
-    <a href="https://x.com/AnshJha438115" target="_blank" rel="noreferrer" className="data-node link-node">
-      <div className="link-content">
-        <img src="/x.png" alt="X" className="icon-3d" />
-        <span>// TWITTER_X</span>
-      </div>
-      <div className="node-arrow">↗</div>
-    </a>
-  </div>
-
-</motion.section>
-
-    </motion.div>
+          <div className="side-panel right-panel">
+            <a href="https://github.com/AK-projects88" target="_blank" rel="noreferrer" className="data-node link-node">
+              <div className="link-content">
+                <img src="/github.png" alt="GitHub" className="icon-3d" />
+                <span>// GITHUB</span>
+              </div>
+            </a>
+            <a href="https://www.linkedin.com/in/ansh-jha-017683422/" target="_blank" rel="noreferrer" className="data-node link-node">
+              <div className="link-content">
+                <img src="/linkedin.png" alt="LinkedIn" className="icon-3d" />
+                <span>// LINKEDIN</span>
+              </div>
+            </a>
+            <a href="https://x.com/AnshJha438115" target="_blank" rel="noreferrer" className="data-node link-node">
+              <div className="link-content">
+                <img src="/x.png" alt="X" className="icon-3d" />
+                <span>// TWITTER_X</span>
+              </div>
+            </a>
+          </div>
+        </motion.section>
+      </motion.div>
 
       <AnimatePresence>
         {selectedProject && (
@@ -876,8 +713,8 @@ const App = () => {
                 <h3>Project Architecture</h3>
                 <p>{selectedProject.detail}</p>
                 <div className="modal-actions">
-                  <MagneticButton className="case-study-btn" onClick={() => window.open(selectedProject.liveLink, "_blank")} onMouseEnter={() => setCursorType('click')} onMouseLeave={() => setCursorType('default')}>View Live Site</MagneticButton>
-<MagneticButton className="case-study-btn outline" onClick={() => window.open(selectedProject.repoLink, "_blank")} onMouseEnter={() => setCursorType('click')} onMouseLeave={() => setCursorType('default')}>GitHub Repo</MagneticButton>
+                  <MagneticButton className="btn btn-primary" onClick={() => window.open(selectedProject.liveLink, "_blank")} onMouseEnter={() => setCursorType('click')} onMouseLeave={() => setCursorType('default')}>View Live Site</MagneticButton>
+                  <MagneticButton className="btn btn-ghost" onClick={() => window.open(selectedProject.repoLink, "_blank")} onMouseEnter={() => setCursorType('click')} onMouseLeave={() => setCursorType('default')}>GitHub Repo</MagneticButton>
                 </div>
               </motion.div>
             </motion.div>
