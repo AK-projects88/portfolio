@@ -11,7 +11,9 @@ import idBack from './my-id-back.png';
 import nexusImg from './nexus.png';
 import gigImg from './gig.png';
 import yatraImg from './yatra.png';
+import resumePDF from './Ansh_Jha_Resume.pdf'; // ADD THIS LINE HERE
 import './App.css';
+
 
 // --- THE X10THINK CRYPTOGRAPHIC CIPHER ENGINE ---
 const DecoderText = ({ text, delay = 0 }) => {
@@ -225,13 +227,15 @@ const IDCardEngine = ({ setCursorType }) => {
         >
           {/* FRONT */}
           <div className="id-card-face id-card-front">
-            <img src={idFront} alt="ID Front" />
+            {/* THE FIX: Added draggable={false} to block the browser's default ghost drag */}
+            <img src={idFront} alt="ID Front" draggable={false} />
             <motion.div className="glare-overlay" style={{ background: glareBackground }} />
           </div>
           
           {/* BACK */}
           <div className="id-card-face id-card-back">
-            <img src={idBack} alt="ID Back" />
+            {/* THE FIX: Added draggable={false} here too */}
+            <img src={idBack} alt="ID Back" draggable={false} />
             <motion.div className="glare-overlay" style={{ background: glareBackground }} />
           </div>
         </motion.div>
@@ -532,14 +536,43 @@ const App = () => {
             </p>
 
             <div className="cta-command-center">
-              <MagneticButton 
-                className="btn btn-primary"
-                onClick={() => scrollToSection('work')}
-                onMouseEnter={() => setCursorType('click')} 
-                onMouseLeave={() => setCursorType('default')}
-              >
-                VIEW_PROJECTS
-              </MagneticButton>
+              
+              {/* THE LAYOUT FIX: A dedicated row just for the buttons */}
+              <div style={{ display: 'flex', flexDirection: 'row', gap: '16px', alignItems: 'center', flexWrap: 'wrap' }}>
+                <MagneticButton 
+                  className="btn btn-primary"
+                  onClick={() => scrollToSection('work')}
+                  onMouseEnter={() => setCursorType('click')} 
+                  onMouseLeave={() => setCursorType('default')}
+                >
+                  VIEW_PROJECTS
+                </MagneticButton>
+
+                <MagneticButton 
+                  className="btn"
+                  onClick={() => {
+                    // THE DOWNLOAD FIX: Uses the imported file variable
+                    const link = document.createElement('a');
+                    link.href = resumePDF; 
+                    link.download = 'Ansh_Jha_Resume.pdf';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                  }}
+                  onMouseEnter={() => setCursorType('click')} 
+                  onMouseLeave={() => setCursorType('default')}
+                  style={{ backgroundColor: '#ffffff', color: '#000000' }}
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '10px' }}>
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                  </svg>
+                  RESUME
+                </MagneticButton>
+              </div>
+
+              {/* Leaves ACCESS_ARCHIVE neatly underneath where it belongs */}
               <button className="escape-hatch-link" onClick={() => scrollToSection('work')}>
                 // ACCESS_ARCHIVE
               </button>
