@@ -523,11 +523,12 @@ const App = () => {
       >
         <motion.section className="hero-section" variants={loadStaggerItem}>
           <div>
-            <h1 className="hero-title">
-              <span className="solid-text">
+            {/* THE A11Y FIX: Gives the scanner a clean label, hides the scrambling math symbols */}
+            <h1 className="hero-title" aria-label="FRONTEND DEVELOPER">
+              <span className="solid-text" aria-hidden="true">
                 <DecoderText text="FRONTEND" delay={2600} />
               </span>
-              <span className="outline-text">
+              <span className="outline-text" aria-hidden="true">
                 <DecoderText text="DEVELOPER" delay={3200} />
               </span>
             </h1>
