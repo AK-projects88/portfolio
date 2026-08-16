@@ -227,7 +227,7 @@ const App = () => {
   const [bootText, setBootText] = useState('COMPILING...');
   const [activeTab, setActiveTab] = useState('Projects');
   const [cursorType, setCursorType] = useState('default');
-  const [viewMode, setViewMode] = useState('desktop'); 
+ 
   const [selectedProject, setSelectedProject] = useState(null);
   const [isCanvasMounted, setIsCanvasMounted] = useState(false);
   
@@ -474,19 +474,6 @@ const App = () => {
       {isCanvasMounted && <canvas ref={canvasRef} className="kinetic-canvas"></canvas>}
       <div className="contrast-overlay"></div>
 
-      <div className="view-toggle">
-        {['desktop', 'tablet', 'mobile'].map((mode) => (
-          <MagneticButton
-            key={mode}
-            className={`btn btn-ghost ${viewMode === mode ? 'active' : ''}`}
-            onClick={() => setViewMode(mode)}
-            onMouseEnter={() => setCursorType('click')}
-            onMouseLeave={() => setCursorType('default')}
-          >
-            {mode === 'desktop' ? 'LAPTOP' : mode.toUpperCase()}
-          </MagneticButton>
-        ))}
-      </div>
 
       {/* THE FIX: Nav Bar moved OUTSIDE the app-wrapper so it stays permanently fixed */}
       <motion.nav 
@@ -504,7 +491,7 @@ const App = () => {
       </motion.nav>
 
       <motion.div 
-        className={`app-wrapper ${viewMode}`}
+        className="app-wrapper"
         variants={loadStaggerContainer}
         initial="hidden"
         animate="visible"
@@ -640,15 +627,15 @@ const App = () => {
               INITIATE <br/> 
               <span className="outline-text">SEQUENCE</span>
             </h2>
-            <a 
-              href="mailto:anshfyp88@gmail.com" 
+            <MagneticButton 
               className="btn btn-primary"
+              onClick={() => window.location.href = "mailto:anshfyp88@gmail.com"}
               onMouseEnter={() => setCursorType('click')}
               onMouseLeave={() => setCursorType('default')}
               style={{ fontSize: '1.25rem', padding: '24px 48px', marginTop: '20px', textTransform: 'lowercase' }}
             >
               anshfyp88@gmail.com
-            </a>
+            </MagneticButton>
           </div>
 
           <div className="side-panel right-panel">
