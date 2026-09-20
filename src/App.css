@@ -142,11 +142,22 @@ section, .hero-section, .portfolio-section, .about-section, .contact-command-cen
 /* =========================================
    BACKGROUNDS & CANVASES
    ========================================= */
-.kinetic-canvas {
+.canvas-container {
   position: fixed;
-  top: 0; left: 0;
-  z-index: -2 !important; 
-  pointer-events: none; 
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -5 !important;
+  pointer-events: none;
+  background-color: #0a0a0c;
+}
+
+.kinetic-canvas {
+  width: 100%;
+  height: 100%;
+  /* THE FIX 3: This mathematically forces ANY random color the JS generates into a perfect Glowing Cyan */
+  filter: grayscale(100%) sepia(100%) hue-rotate(130deg) saturate(400%) brightness(0.9);
 }
 
 .contrast-overlay {

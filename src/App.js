@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import VercelBadge from './VercelBadge';
 import { motion, useMotionValue, useTransform, useSpring, AnimatePresence, useMotionTemplate, useReducedMotion, useScroll } from 'framer-motion';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCoverflow, Mousewheel, Pagination } from 'swiper/modules';
@@ -13,12 +14,13 @@ import gigImg from './gig.png';
 import yatraImg from './yatra.png';
 import resumePDF from './Ansh_Jha_Resume.pdf'; // ADD THIS LINE HERE
 import './App.css';
+import fluid from 'webgl-fluid';
 
 
 // --- THE X10THINK CRYPTOGRAPHIC CIPHER ENGINE ---
 const DecoderText = ({ text, delay = 0 }) => {
   const [display, setDisplay] = useState('');
-  const chars = '∑π∆∇∞∫+-_/\\|[]{}<>0123456789X';
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*';
 
   useEffect(() => {
     let iteration = 0;
@@ -175,74 +177,8 @@ const MagneticButton = ({ children, className, onClick, onMouseEnter, onMouseLea
   );
 };
 
-// --- THE X10THINK 3D DUAL-SIDED CARD ENGINE ---
-const IDCardEngine = ({ setCursorType }) => {
-  const [isFlipped, setIsFlipped] = useState(false);
-  
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  
-  const rotateX = useSpring(useTransform(y, [-200, 200], [15, -15]), { stiffness: 200, damping: 20, mass: 1.5 });
-  const rotateYDrag = useSpring(useTransform(x, [-200, 200], [-15, 15]), { stiffness: 200, damping: 20, mass: 1.5 });
 
-  const lightX = useSpring(useTransform(x, [-200, 200], [150, -50]), { stiffness: 150, damping: 20 });
-  const lightY = useSpring(useTransform(y, [-200, 200], [150, -50]), { stiffness: 150, damping: 20 });
-  
-  const glareBackground = useMotionTemplate`radial-gradient(circle at ${lightX}% ${lightY}%, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 25%)`;
 
-  return (
-    <div className="id-card-3d-perspective">
-      <motion.div 
-        className="id-card-physics-body"
-        style={{ x, y, rotateX, rotateY: rotateYDrag }}
-        drag
-        dragElastic={0.12} 
-        dragConstraints={{ top: 0, bottom: 0, left: 0, right: 0 }}
-        onMouseEnter={() => setCursorType('drag')}
-        onMouseLeave={() => setCursorType('default')}
-        onClick={() => setIsFlipped(!isFlipped)} 
-        /* THE A11Y FIX: Keyboard accessibility for the ID Card */
-        role="button"
-        tabIndex={0}
-        aria-label="Flip ID Card"
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            setIsFlipped(!isFlipped);
-          }
-        }}
-      >
-        <div className="lanyard-thread"></div>
-
-        <div className="hardware-clip">
-          <div className="hardware-hole"></div>
-        </div>
-        <div className="hardware-slot"></div>
-
-        <motion.div 
-          className="id-card-flip-container"
-          initial={false}
-          animate={{ rotateY: isFlipped ? 180 : 0 }}
-          transition={{ type: "spring", stiffness: 120, damping: 18, mass: 1.2 }}
-        >
-          {/* FRONT */}
-          <div className="id-card-face id-card-front">
-            {/* THE FIX: Added draggable={false} to block the browser's default ghost drag */}
-            <img src={idFront} alt="ID Front" draggable={false} />
-            <motion.div className="glare-overlay" style={{ background: glareBackground }} />
-          </div>
-          
-          {/* BACK */}
-          <div className="id-card-face id-card-back">
-            {/* THE FIX: Added draggable={false} here too */}
-            <img src={idBack} alt="ID Back" draggable={false} />
-            <motion.div className="glare-overlay" style={{ background: glareBackground }} />
-          </div>
-        </motion.div>
-      </motion.div>
-    </div>
-  );
-};
 
 // --- MAIN APP COMPONENT ---
 const App = () => {
@@ -355,6 +291,7 @@ const App = () => {
     return () => { clearTimeout(timer); clearTimeout(textTimer); };
   }, []);
 
+  const fluidInitialized = useRef(false);
   const canvasRef = useRef(null);
   const lenisRef = useRef(null);
 
@@ -380,71 +317,76 @@ const App = () => {
     return () => { lenis.destroy(); };
   }, []);
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+ useEffect(() => {
+    const container = canvasRef.current;
+    if (!container) return;
 
-    const ctx = canvas.getContext('2d');
-    let animationFrameId;
+    // THE FIX 1: Dynamically create the canvas to survive React Strict Mode
+    const canvas = document.createElement('canvas');
+    canvas.className = 'kinetic-canvas';
+    container.appendChild(canvas);
 
-    const resize = () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    fluid(canvas, {
+      IMMEDIATE: true,
+      TRIGGER: 'hover',
+      SIM_RESOLUTION: 128,
+      DYE_RESOLUTION: 1024,
+      CAPTURE_RESOLUTION: 512,
+      DENSITY_DISSIPATION: 2.0, // Fades slightly faster for a cleaner look
+      VELOCITY_DISSIPATION: 0.2,
+      PRESSURE: 0.8,
+      PRESSURE_ITERATIONS: 20,
+      CURL: 30,
+      INITIAL: true,
+      SPLAT_RADIUS: 0.25,
+      SPLAT_FORCE: 6000,
+      SHADING: true,
+      COLORFUL: false, // Turns off the rainbow cycling
+      COLOR_UPDATE_SPEED: 10,
+      PAUSED: false,
+      // We set background to PURE BLACK so the CSS filter doesn't tint the background
+      BACK_COLOR: { r: 0, g: 0, b: 0 }, 
+      TRANSPARENT: false,
+      BLOOM: true,
+      BLOOM_ITERATIONS: 8,
+      BLOOM_RESOLUTION: 256,
+      BLOOM_INTENSITY: 0.8,
+      BLOOM_THRESHOLD: 0.6,
+      BLOOM_SOFT_KNEE: 0.7,
+      SUNRAYS: true,
+      SUNRAYS_RESOLUTION: 196,
+      SUNRAYS_WEIGHT: 1.0,
+    });
+
+    const forwardMouseEvents = (e) => {
+      const simulatedEvent = new MouseEvent('mousemove', {
+        clientX: e.clientX,
+        clientY: e.clientY,
+        bubbles: true
+      });
+      canvas.dispatchEvent(simulatedEvent);
+    };
+
+    const handleResize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     };
-    resize();
-    window.addEventListener('resize', resize);
 
-    let mouse = { x: 0, y: 0, targetX: 0, targetY: 0 };
-    const handleMouseMove = (e) => {
-      mouse.targetX = (e.clientX - canvas.width / 2) * 0.05;
-      mouse.targetY = (e.clientY - canvas.height / 2) * 0.05;
-    };
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', forwardMouseEvents);
+    window.addEventListener('resize', handleResize);
 
-    let time = 0;
-
-    const render = () => {
-      time += 0.02; 
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      mouse.x += (mouse.targetX - mouse.x) * 0.05;
-      mouse.y += (mouse.targetY - mouse.y) * 0.05;
-
-      const fov = 400; 
-      const cols = 25; 
-      const rows = 25; 
-      const spacing = 75; 
-      for (let x = -cols / 2; x < cols / 2; x++) {
-        for (let z = -rows / 2; z < rows / 2; z++) {
-          let posX = x * spacing;
-          let posZ = z * spacing;
-          let posY = Math.sin(x * 0.15 + time) * 35 + Math.cos(z * 0.15 + time) * 35;
-          let camX = posX + mouse.x * (posZ * 0.01);
-          let camY = posY + mouse.y * (posZ * 0.01) + 200; 
-          let camZ = posZ + 500; 
-
-          if (camZ > 0) {
-            let scale = fov / camZ;
-            let screenX = camX * scale + canvas.width / 2;
-            let screenY = camY * scale + canvas.height / 2;
-            let size = Math.max(1.2, scale * 2.5); 
-            let alpha = Math.max(0.1, Math.min(1, scale * 3.0)); 
-
-            ctx.fillStyle = `rgba(184, 247, 228, ${alpha})`; 
-            ctx.fillRect(screenX, screenY, size, size); 
-            ctx.shadowBlur = 0;
-          }
-        }
-      }
-      animationFrameId = requestAnimationFrame(render);
-    };
-
-    render();
+    // THE FIX 2: Physically destroy the canvas on unmount. No more disappearing bugs.
     return () => {
-      window.removeEventListener('resize', resize);
-      window.removeEventListener('mousemove', handleMouseMove);
-      cancelAnimationFrame(animationFrameId);
+      window.removeEventListener('mousemove', forwardMouseEvents);
+      window.removeEventListener('resize', handleResize);
+      if (container.contains(canvas)) {
+        container.removeChild(canvas);
+      }
     };
-  }, [isCanvasMounted]); 
+  }, [isCanvasMounted]);
 
   const scrollToSection = (sectionId) => {
     if (lenisRef.current) {
@@ -496,9 +438,26 @@ const App = () => {
         />
       ))}
 
-      {isCanvasMounted && <canvas ref={canvasRef} className="kinetic-canvas" aria-hidden="true"></canvas>}
+      {isCanvasMounted && <div ref={canvasRef} className="canvas-container" aria-hidden="true"></div>}
       <div className="contrast-overlay" aria-hidden="true"></div>
-
+{/* ========================================================= */}
+      {/* THE VERCEL BADGE (LOCKED TO RIGHT HALF, NO OVERLAP)       */}
+      {/* ========================================================= */}
+      <div style={{ 
+        position: 'absolute', 
+        top: 0,       
+        right: 0,            
+        width: '50vw',       // FIX: Only takes up the right half. Buttons stay completely unblocked.
+        height: '110vh',     
+        zIndex: 50,          // FIX: High Z-index so the mouse can grab the physics object
+        pointerEvents: 'none' 
+      }}>
+        {/* pointerEvents: 'auto' allows dragging, but since width is 50vw, it stops exactly before your buttons */}
+        <div style={{ width: '100%', height: '100%', pointerEvents: 'auto' }}>
+          <VercelBadge />
+        </div>
+      </div>
+      {/* ========================================================= */}
 
       {/* THE FIX: Nav Bar moved OUTSIDE the app-wrapper so it stays permanently fixed */}
       <motion.nav 
@@ -537,6 +496,8 @@ const App = () => {
             </p>
 
             <div className="cta-command-center">
+              {/* FIX: Added relative positioning and zIndex: 100 to make buttons clickable again */}
+      <div className="cta-command-center" style={{ position: 'relative', zIndex: 100 }}></div>
               
               {/* THE LAYOUT FIX: A dedicated row just for the buttons */}
               <div style={{ display: 'flex', flexDirection: 'row', gap: '16px', alignItems: 'center', flexWrap: 'wrap' }}>
@@ -572,6 +533,7 @@ const App = () => {
                   RESUME
                 </MagneticButton>
               </div>
+              
 
               {/* Leaves ACCESS_ARCHIVE neatly underneath where it belongs */}
               <button className="escape-hatch-link" onClick={() => scrollToSection('work')}>
@@ -579,7 +541,8 @@ const App = () => {
               </button>
             </div>
           </div>
-          <IDCardEngine setCursorType={setCursorType} />
+          
+          
         </motion.section>
 
         <motion.section id="work" className="portfolio-section" variants={loadStaggerItem}>
