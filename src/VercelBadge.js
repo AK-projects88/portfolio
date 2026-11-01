@@ -136,6 +136,6 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
           lineWidth={1} 
         />
       </mesh>
-    </>
+   </>
   )
 }

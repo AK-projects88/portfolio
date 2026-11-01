@@ -466,7 +466,7 @@ const App = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut", delay: 0.5 }}
       >
-        <div className="nav-logo">ANSH.JHA</div>
+        <div className="nav-logo">SITELOOM</div>
         <div className="nav-links">
           <MagneticButton className="nav-link" onClick={() => scrollToSection('work')} onMouseEnter={() => setCursorType('click')} onMouseLeave={() => setCursorType('default')}>Work</MagneticButton>
           <MagneticButton className="nav-link" onClick={() => scrollToSection('about')} onMouseEnter={() => setCursorType('click')} onMouseLeave={() => setCursorType('default')}>About</MagneticButton>
